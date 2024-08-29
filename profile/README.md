@@ -1,16 +1,9 @@
-# is-a-th.ing
+# [is-a-th.ing](https://reg.is-a-th.ing)
 
-## Infrastructure
-
-is-a-th.ing is registered on porkbun with Vercel's DNS server
-
-*.is-a-th.ing & is-a-th.ing are linked to a Vercel Deployment that redirects to regthing
-
-regthing (reg.is-a-th.ing) is an actual is-a-th.ing domain & uses Vercel's DNS API (the registry itself was registered via the registry..)
-
+![is-a-th.ing logo](https://repository-images.githubusercontent.com/849079448/9f6f427a-7b3b-4680-a9ba-9d0643f1473d)
 
 ## How does this work?
-Domains can be obtained by simply creating an account, typing in the domain you want, and clicking get (you can only have 3 unratified domains)
+Domains can be obtained by simply creating an account on [regthing](https://reg.is-a-th.ing), typing in the domain you want, and clicking get (you can only have 3 unratified domains)
 
 ## Donor
 any person who has donated more that $11 gets auto renewal + 3 extra unratified slots
