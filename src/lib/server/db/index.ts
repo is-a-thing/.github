@@ -1,10 +1,11 @@
-import { openKv } from '@deno/kv';
-import { collection, kvdex } from '@olli/kvdex';
+import { openKv } from '@deno/kv'
+import { collection, kvdex } from '@olli/kvdex'
 
-import * as schema from './schema';
-export { schema };
+import * as schema from './schema'
 
-const kv = await openKv();
+export { schema }
+
+const kv = await openKv()
 
 export const db = kvdex(kv, {
 	auth: {
@@ -29,5 +30,4 @@ export const db = kvdex(kv, {
 		},
 		idGenerator: ({ name }) => name
 	})
-});
-
+})

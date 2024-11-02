@@ -1,16 +1,16 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const user = z.object({
 	githubId: z.string(),
 	domainSlots: z.number(),
 	name: z.string()
-});
+})
 
 export const session = z.object({
 	id: z.string(),
 	userId: z.string(),
 	expiresAt: z.date()
-});
+})
 
 export const domain = z
 	.object({
@@ -31,4 +31,4 @@ export const domain = z
 				currentValuePushed: z.boolean() // has the current value been pushed? (if the user edited NS during the timeout, the current value has not been pushed)
 			})
 		])
-	);
+	)

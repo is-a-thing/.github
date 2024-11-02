@@ -1,21 +1,21 @@
-import { dev } from '$app/environment';
+import { dev } from '$app/environment'
 
-import { type DatabaseSession, Lucia } from 'lucia';
-import type { z } from 'zod';
+import { type DatabaseSession, Lucia } from 'lucia'
+import type { z } from 'zod'
 
-import { db, schema } from '../db';
+import { db, schema } from '../db'
 
 function databaseSession(session: z.infer<typeof schema.session>): DatabaseSession {
-	return { ...session, attributes: {} };
+	return { ...session, attributes: {} }
 }
 
 const lucia = new Lucia(
 	{
 		async deleteSession(sessionId) {
-			await db.auth.session.delete(sessionId);
+			await db.auth.session.delete(sessionId)
 		},
 		async deleteUserSessions(userId) {
-			await db.auth.session.deleteBySecondaryIndex('userId', userId);
+			await db.auth.session.deleteBySecondaryIndex('userId', userId)
 		},
 		async updateSessionExpiration(sessionId, expiresAt) {
 			await db.auth.session.update(
@@ -26,27 +26,27 @@ const lucia = new Lucia(
 				{
 					expireIn: expiresAt.getTime() - new Date().getTime()
 				}
-			);
+			)
 		},
 		async setSession(session) {
 			await db.auth.session.add({
 				id: session.id,
 				expiresAt: session.expiresAt,
 				userId: session.userId
-			});
+			})
 		},
 		async deleteExpiredSessions() {},
 		async getUserSessions(userId) {
-			const sessions = await db.auth.session.findBySecondaryIndex('userId', userId);
-			return sessions.result.map((d) => databaseSession(d.value));
+			const sessions = await db.auth.session.findBySecondaryIndex('userId', userId)
+			return sessions.result.map((d) => databaseSession(d.value))
 		},
 		async getSessionAndUser(sessionId) {
-			const session = (await db.auth.session.find(sessionId))?.value;
-			const user = session?.userId ? (await db.auth.user.find(session.userId))?.value : undefined;
+			const session = (await db.auth.session.find(sessionId))?.value
+			const user = session?.userId ? (await db.auth.user.find(session.userId))?.value : undefined
 			return [
 				session ? databaseSession(session) : null,
 				user ? { id: user?.githubId, attributes: user } : null
-			];
+			]
 		}
 	},
 	{
@@ -56,13 +56,13 @@ const lucia = new Lucia(
 			}
 		}
 	}
-);
+)
 
-export default lucia;
+export default lucia
 
 declare module 'lucia' {
 	interface Register {
-		Lucia: typeof lucia;
-		DatabaseUserAttributes: z.infer<typeof schema.user>;
+		Lucia: typeof lucia
+		DatabaseUserAttributes: z.infer<typeof schema.user>
 	}
 }

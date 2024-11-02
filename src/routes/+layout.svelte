@@ -1,13 +1,12 @@
-<script lang=ts>
-	import '../app.pcss';
+<script lang="ts">
+	import '../app.pcss'
 	/**
 	 * @typedef {Object} Props
 	 * @property {import('svelte').Snippet} [children]
 	 */
 
 	/** @type {Props} */
-	let { children } = $props();
-
+	let { children } = $props()
 </script>
 
 <div class="navbar bg-base-200 text-base-content">

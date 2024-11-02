@@ -1,5 +1,5 @@
-import daisyui from 'daisyui';
-import type { Config } from 'tailwindcss';
+import daisyui from 'daisyui'
+import type { Config } from 'tailwindcss'
 
 const config = {
 	darkMode: 'class',
@@ -8,6 +8,6 @@ const config = {
 		extend: {}
 	},
 	plugins: [daisyui]
-} satisfies Config;
+} satisfies Config
 
-export default config;
+export default config

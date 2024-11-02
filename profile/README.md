@@ -10,5 +10,4 @@ Domains can be obtained by simply creating an account on [regthing](https://reg.
 
 any person who has donated more that $11 gets auto renewal + 3 extra slots
 
-
 Any violations of our service will cause your account to be banned and your domains to be seiezed 😀👍
