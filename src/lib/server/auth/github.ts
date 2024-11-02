@@ -1,5 +1,5 @@
-import { GITHUB_ID, GITHUB_SECRET } from '$env/static/private';
+import { ID_GITHUB, SECRET_GITHUB } from '$env/static/private';
 
 import { GitHub } from 'arctic';
 
-export default new GitHub(GITHUB_ID, GITHUB_SECRET);
+export default new GitHub(ID_GITHUB, SECRET_GITHUB);
