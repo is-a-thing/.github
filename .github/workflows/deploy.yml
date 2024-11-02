@@ -34,13 +34,13 @@ jobs:
 
       - name: Build step
         run: "bun run build"
-
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
         env:
           ID_GITHUB: ${{ secrets.ID_GITHUB }}
           SECRET_GITHUB: ${{ secrets.SECRET_GITHUB }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
 
         with:
           project: "is-a-thing"
