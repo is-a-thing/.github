@@ -37,6 +37,11 @@ jobs:
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
+        env:
+          ID_GITHUB: ${{ secrets.ID_GITHUB }}
+          SECRET_GITHUB: ${{ secrets.SECRET_GITHUB }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
         with:
           project: "is-a-thing"
           entrypoint: "mod.ts"
