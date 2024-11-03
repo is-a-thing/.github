@@ -14,9 +14,13 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.26.0",
     "@deno/kv": "^0.8.2",
+    "@hono/zod-validator": "^0.4.1",
     "@olli/kvdex": "npm:@jsr/olli__kvdex@2.1.0",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
     "@oxi/option": "npm:@jsr/oxi__option@0.2.0",
     "@oxi/result": "npm:@jsr/oxi__result@0.3.1",
+    "@petamoriken/float16": "npm:@jsr/petamoriken__float16@3.8.7",
     "@std/async": "npm:@jsr/std__async@1.0.8",
     "@sveltejs/kit": "^2.5.27",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
@@ -24,7 +28,7 @@
     "@types/eslint": "^9.6.0",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.5.1",
-    "arctic": "^1.9.2",
+    "arctic": "^2.0.0-next.9",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
     "eslint": "^9.0.0",
@@ -32,10 +36,8 @@
     "eslint-plugin-svelte": "^2.45.1",
     "globals": "^15.0.0",
     "hono": "^4.6.6",
-    "lucia": "^3.2.0",
     "luxon": "^3.5.0",
     "mdsvex": "^0.11.2",
-    "oslo": "^1.2.1",
     "postcss": "^8.4.41",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.6",
@@ -48,8 +50,5 @@
     "vite": "^5.4.4",
     "zod": "^3.23.8"
   },
-  "type": "module",
-  "dependencies": {
-    "@sentry/sveltekit": "^8.36.0"
-  }
+  "type": "module"
 }

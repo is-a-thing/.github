@@ -1,68 +1,111 @@
 import { dev } from '$app/environment'
 
-import { type DatabaseSession, Lucia } from 'lucia'
+import { sha256 } from '@oslojs/crypto/sha2'
+import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding'
+import { None, Option, Some } from '@oxi/option'
+import type { Cookies } from '@sveltejs/kit'
 import type { z } from 'zod'
 
 import { db, schema } from '../db'
 
-function databaseSession(session: z.infer<typeof schema.session>): DatabaseSession {
-	return { ...session, attributes: {} }
+export type Session = z.infer<typeof schema.session>
+export type User = z.infer<typeof schema.user>
+
+const expireTime = 1000 * 60 * 60 * 24 * 15
+
+const dbHelpers = {
+	async deleteSession(sessionId: string): Promise<void> {
+		await db.auth.session.delete(sessionId)
+	},
+	async deleteUserSessions(userId: string): Promise<void> {
+		await db.auth.session.deleteBySecondaryIndex('userId', userId)
+	},
+	async updateSessionExpiration(sessionId: string, expiresAt: Date): Promise<void> {
+		await db.auth.session.update(
+			sessionId,
+			{
+				expiresAt
+			},
+			{
+				expireIn: expiresAt.getTime() - new Date().getTime()
+			}
+		)
+	},
+	async setSession(session: z.infer<typeof schema.session>): Promise<Option<Session>> {
+		const res = await db.auth.session.add(session, {
+			expireIn: session.expiresAt.getTime() - new Date().getTime()
+		})
+		if (res.ok) {
+			return Some(session)
+		}
+		return None
+	},
+	async getUserSessions(userId: string): Promise<Session[]> {
+		const sessions = await db.auth.session.findBySecondaryIndex('userId', userId)
+		return sessions.result.map((v) => v.value)
+	},
+	async getSessionAndUser(sessionId: string): Promise<[Session, User] | [undefined, undefined]> {
+		const session = (await db.auth.session.find(sessionId))?.value
+		const user = session?.userId ? (await db.auth.user.find(session.userId))?.value : undefined
+		// @ts-expect-error: If session is undefined, user will automatically be undefined
+		return [session, user]
+	}
 }
 
-const lucia = new Lucia(
-	{
-		async deleteSession(sessionId) {
-			await db.auth.session.delete(sessionId)
-		},
-		async deleteUserSessions(userId) {
-			await db.auth.session.deleteBySecondaryIndex('userId', userId)
-		},
-		async updateSessionExpiration(sessionId, expiresAt) {
-			await db.auth.session.update(
-				sessionId,
-				{
-					expiresAt
-				},
-				{
-					expireIn: expiresAt.getTime() - new Date().getTime()
-				}
-			)
-		},
-		async setSession(session) {
-			await db.auth.session.add({
-				id: session.id,
-				expiresAt: session.expiresAt,
-				userId: session.userId
-			})
-		},
-		async deleteExpiredSessions() {},
-		async getUserSessions(userId) {
-			const sessions = await db.auth.session.findBySecondaryIndex('userId', userId)
-			return sessions.result.map((d) => databaseSession(d.value))
-		},
-		async getSessionAndUser(sessionId) {
-			const session = (await db.auth.session.find(sessionId))?.value
-			const user = session?.userId ? (await db.auth.user.find(session.userId))?.value : undefined
-			return [
-				session ? databaseSession(session) : null,
-				user ? { id: user?.githubId, attributes: user } : null
-			]
-		}
-	},
-	{
-		sessionCookie: {
-			attributes: {
-				secure: !dev
-			}
-		}
-	}
-)
+export function generateSessionToken(): string {
+	const bytes = new Uint8Array(20)
+	crypto.getRandomValues(bytes)
+	const token = encodeBase32LowerCaseNoPadding(bytes)
+	return token
+}
 
-export default lucia
+export async function createSession(userId: string, token: string): Promise<Option<Session>> {
+	const id = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+	const res = await dbHelpers.setSession({
+		id,
+		userId,
+		expiresAt: new Date(Date.now() + expireTime)
+	})
+	return res
+}
 
-declare module 'lucia' {
-	interface Register {
-		Lucia: typeof lucia
-		DatabaseUserAttributes: z.infer<typeof schema.user>
+export type SessionValidationResult = { session: Session; user: User }
+
+export async function validateSession(token: string): Promise<Option<SessionValidationResult>> {
+	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+	const [session, user] = await dbHelpers.getSessionAndUser(sessionId)
+	if (!session) return None
+	if (Date.now() >= session.expiresAt.getTime()) {
+		dbHelpers.deleteSession(sessionId)
+		return None
 	}
+	if (Date.now() >= session.expiresAt.getTime() - expireTime) {
+		session.expiresAt = new Date(Date.now() + expireTime)
+		dbHelpers.updateSessionExpiration(sessionId, session.expiresAt)
+	}
+	return Some({ session, user })
+}
+
+export async function invalidateSession(sessionId: string): Promise<void> {
+	await dbHelpers.deleteSession(sessionId)
+}
+
+export async function createSessionCookie(sessionId: string, expiresAt: Date, cookies: Cookies) {
+	cookies.set('session', sessionId, {
+		httpOnly: true,
+		sameSite: 'lax',
+		expires: expiresAt,
+		path: '/',
+		secure: !dev
+	})
+}
+
+export async function deleteSessionCookie(sessionId: string, expiresAt: Date, cookies: Cookies) {
+	cookies.set('session', '', {
+		httpOnly: true,
+		sameSite: 'lax',
+		maxAge: 0,
+		path: '/',
+		secure: !dev
+	})
 }

@@ -2,6 +2,9 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { mdsvex } from 'mdsvex'
 import adapter from 'sveltekit-adapter-deno'
 
+import { Float16Array } from "@petamoriken/float16"
+globalThis.Float16Array = Float16Array;
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors

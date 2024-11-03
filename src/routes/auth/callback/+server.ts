@@ -1,10 +1,9 @@
-import lucia from '$lib/server/auth'
+import { createSession, createSessionCookie, generateSessionToken } from '$lib/server/auth'
 import github from '$lib/server/auth/github'
 import { db } from '$lib/server/db'
 
 import { error, isHttpError } from '@sveltejs/kit'
-import { OAuth2RequestError } from 'arctic'
-import { generateIdFromEntropySize } from 'lucia'
+import { OAuth2RequestError, OAuth2Tokens } from 'arctic'
 import { DateTime } from 'luxon'
 
 export async function GET({ url, cookies }) {
@@ -15,44 +14,45 @@ export async function GET({ url, cookies }) {
 	if (!code || !state || !storedState || state !== storedState) {
 		error(400, 'Invalid state')
 	}
+	let tokens: OAuth2Tokens
 
 	try {
-		const tokens = await github.validateAuthorizationCode(code)
+		tokens = await github.validateAuthorizationCode(code)
+	} catch {
+		error(400, 'Unable to validate')
+	}
+
+	try {
 		const githubUserResponse = await fetch('https://api.github.com/user', {
 			headers: {
-				Authorization: `Bearer ${tokens.accessToken}`
+				Authorization: `Bearer ${tokens.accessToken()}`
 			}
 		})
+
 		const githubUser: GitHubUser = await githubUserResponse.json()
 		const daysSinceJoin = DateTime.now().diff(DateTime.fromISO(githubUser.created_at), 'days').days
 		if (daysSinceJoin < 90) {
 			error(400, 'Github account must be at least 90 days old')
 		}
+
 		const existingUser = (await db.auth.user.find(githubUser.id.toString()))?.flat()
-
-		if (existingUser) {
-			const session = await lucia.createSession(existingUser.id, {})
-			const sessionCookie = lucia.createSessionCookie(session.id)
-			cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			})
-		} else {
-			const userId = generateIdFromEntropySize(10)
-
+		if (!existingUser) {
 			await db.auth.user.add({
 				githubId: githubUser.id.toString(),
 				domainSlots: 3,
 				name: githubUser.name
 			})
-
-			const session = await lucia.createSession(userId, {})
-			const sessionCookie = lucia.createSessionCookie(session.id)
-			cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			})
 		}
+
+		const token = generateSessionToken()
+		const sessionOption = await createSession(githubUser.id.toString(), token)
+		if (sessionOption.isNone()) {
+			error(500, 'Error creating session')
+		}
+
+		const session = sessionOption.unwrap()
+		createSessionCookie(session.id, session.expiresAt, cookies)
+
 		return new Response(null, {
 			status: 302,
 			headers: {
