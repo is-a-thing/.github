@@ -37,7 +37,7 @@ jobs:
         env:
           ID_GITHUB: ${{ secrets.ID_GITHUB }}
           SECRET_GITHUB: ${{ secrets.SECRET_GITHUB }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DESEC_TOKEN: ${{ secrets.DESEC_TOKEN }}
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
