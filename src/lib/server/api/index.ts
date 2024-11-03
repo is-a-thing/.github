@@ -1,10 +1,9 @@
-import { Hono } from 'hono'
-
 import { dnsApi } from './dns'
+import { createHono } from './hono'
 
-const api = new Hono().route('/dns', dnsApi)
+const api = createHono().route('/dns', dnsApi)
 
-const hono = new Hono().route('/api', api)
+const hono = createHono().route('/api', api)
 
 export default hono
 export type api = typeof api

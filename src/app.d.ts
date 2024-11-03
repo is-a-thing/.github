@@ -1,15 +1,15 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import { Session, User } from '$lib/server/auth'
-
-import { z } from 'zod'
+import { AuthPair } from '$lib/server/auth'
 
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: User
-			session: Session
+			auth: AuthPair | {
+				user: null,
+				session: null
+			}
 		}
 		// interface PageData {}
 		// interface PageState {}
@@ -17,4 +17,4 @@ declare global {
 	}
 }
 
-export {}
+export { }

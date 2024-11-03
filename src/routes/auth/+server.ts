@@ -1,3 +1,4 @@
+import { dev } from '$app/environment'
 import github from '$lib/server/auth/github'
 
 import { redirect } from '@sveltejs/kit'
@@ -9,7 +10,7 @@ export async function GET({ cookies }) {
 
 	cookies.set('oauth_state', state, {
 		path: '/',
-		secure: import.meta.env.PROD,
+		secure: !dev,
 		httpOnly: true,
 		maxAge: 60 * 10,
 		sameSite: 'lax'

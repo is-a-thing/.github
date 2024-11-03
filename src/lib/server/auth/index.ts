@@ -59,8 +59,12 @@ export function generateSessionToken(): string {
 	return token
 }
 
+function sessionIdFromToken(token: string): string {
+	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+}
+
 export async function createSession(userId: string, token: string): Promise<Option<Session>> {
-	const id = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+	const id = sessionIdFromToken(token)
 	const res = await dbHelpers.setSession({
 		id,
 		userId,
@@ -69,20 +73,18 @@ export async function createSession(userId: string, token: string): Promise<Opti
 	return res
 }
 
-export type SessionValidationResult = { session: Session; user: User }
+export type AuthPair = { session: Session; user: User }
 
-export async function validateSession(token: string): Promise<Option<SessionValidationResult>> {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+export async function validateSessionToken(token: string): Promise<Option<AuthPair>> {
+	const sessionId = sessionIdFromToken(token)
 	const [session, user] = await dbHelpers.getSessionAndUser(sessionId)
 	if (!session) return None
 	if (Date.now() >= session.expiresAt.getTime()) {
 		dbHelpers.deleteSession(sessionId)
 		return None
 	}
-	if (Date.now() >= session.expiresAt.getTime() - expireTime) {
-		session.expiresAt = new Date(Date.now() + expireTime)
-		dbHelpers.updateSessionExpiration(sessionId, session.expiresAt)
-	}
+	session.expiresAt = new Date(Date.now() + expireTime)
+	dbHelpers.updateSessionExpiration(sessionId, session.expiresAt)
 	return Some({ session, user })
 }
 
@@ -90,17 +92,17 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 	await dbHelpers.deleteSession(sessionId)
 }
 
-export async function createSessionCookie(sessionId: string, expiresAt: Date, cookies: Cookies) {
-	cookies.set('session', sessionId, {
+export async function createSessionCookie(token: string, cookies: Cookies) {
+	cookies.set('session', token, {
 		httpOnly: true,
 		sameSite: 'lax',
-		expires: expiresAt,
+		maxAge: expireTime,
 		path: '/',
 		secure: !dev
 	})
 }
 
-export async function deleteSessionCookie(sessionId: string, expiresAt: Date, cookies: Cookies) {
+export async function deleteSessionCookie(cookies: Cookies) {
 	cookies.set('session', '', {
 		httpOnly: true,
 		sameSite: 'lax',

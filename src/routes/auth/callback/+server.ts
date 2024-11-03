@@ -1,3 +1,4 @@
+import { dev } from '$app/environment'
 import { createSession, createSessionCookie, generateSessionToken } from '$lib/server/auth'
 import github from '$lib/server/auth/github'
 import { db } from '$lib/server/db'
@@ -10,7 +11,13 @@ export async function GET({ url, cookies }) {
 	const code = url.searchParams.get('code')
 	const state = url.searchParams.get('state')
 	const storedState = cookies.get('oauth_state') ?? null
-
+	cookies.delete('oauth_state', {
+		path: '/',
+		secure: !dev,
+		httpOnly: true,
+		maxAge: 60 * 10,
+		sameSite: 'lax'
+	})
 	if (!code || !state || !storedState || state !== storedState) {
 		error(400, 'Invalid state')
 	}
@@ -50,8 +57,7 @@ export async function GET({ url, cookies }) {
 			error(500, 'Error creating session')
 		}
 
-		const session = sessionOption.unwrap()
-		createSessionCookie(session.id, session.expiresAt, cookies)
+		createSessionCookie(token, cookies)
 
 		return new Response(null, {
 			status: 302,

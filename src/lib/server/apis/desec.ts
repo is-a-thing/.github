@@ -53,7 +53,7 @@ export async function setRRSet(
 		method: exists ? 'PUT' : 'POST',
 		body: JSON.stringify(payload)
 	})
-	console.log(exists, res)
+
 	if (res.ok) return Ok(null)
 	return Err(res.statusText)
 }
