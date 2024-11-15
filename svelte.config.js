@@ -1,15 +1,15 @@
+import { Float16Array } from '@petamoriken/float16'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { mdsvex } from 'mdsvex'
 import adapter from 'sveltekit-adapter-deno'
 
-import { Float16Array } from "@petamoriken/float16"
-globalThis.Float16Array = Float16Array;
+globalThis.Float16Array = Float16Array
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: [vitePreprocess({ script: true }), mdsvex()],
+	preprocess: [vitePreprocess({ script: true }), mdsvex({ extension: '.md' })],
 
 	kit: {
 		adapter: adapter({
@@ -21,10 +21,15 @@ const config = {
 					'.node': 'empty'
 				}
 			}
-		})
+		}),
+		prerender: {
+			concurrency: 1,
+			crawl: true,
+			entries: ['*', '/docs']
+		}
 	},
 
-	extensions: ['.svelte', '.svx']
+	extensions: ['.svelte', '.svx', '.md']
 }
 
 export default config

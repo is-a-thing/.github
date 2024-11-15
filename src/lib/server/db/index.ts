@@ -1,3 +1,5 @@
+import { dev } from '$app/environment'
+
 import { openKv } from '@deno/kv'
 import { collection, kvdex } from '@olli/kvdex'
 
@@ -5,7 +7,7 @@ import * as schema from './schema'
 
 export { schema }
 
-const kv = await openKv()
+const kv = await openKv(dev ? 'http://localhost:4512' : undefined)
 
 export const db = kvdex(kv, {
 	auth: {

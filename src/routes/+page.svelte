@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { normalizeDomainName } from '$lib/utils'
-	import { delay } from '@std/async'
+	import { delay, debounce } from '@std/async'
 	class Domain {
 		#state = $state('')
 		get state() {
@@ -11,10 +11,9 @@
 		}
 	}
 
-	let focused = $state(false)
 	class Placeholder {
 		#state = $state('')
-		#waiting = $derived(focused || !!domain.state)
+		#waiting = $derived(!!domain.state)
 
 		get state() {
 			return this.#state
@@ -79,21 +78,23 @@
 	>{domain.state || placeholder.state}</span
 >
 
-<div class="flex flex-col items-center justify-center">
-	<div class="flex flex-row text-3xl">
-		<input
-			bind:this={input}
-			oninput={onUpdate}
-			bind:value={domain.state}
-			onfocus={() => (focused = true)}
-			onblur={() => (focused = false)}
-			style="width: {clientWidth}px"
-			class="placeholder:text-base-content/40 bg-base-100"
-			type="text"
-			placeholder={placeholder.state}
-		/>
-		<button onclick={() => input.focus()} class="text-base-content/45 cursor-text"
-			>.is-a-th.ing</button
-		>
+<div class="flex flex-col h-full items-center justify-center md:items-start md:pl-32 pb-16">
+	<h1 class="text-6xl">Free is-a-th.ing subdomain</h1>
+	<div class="flex flex-row gap-x-2">
+		<label class="flex flex-row text-3xl input input-bordered min-w-96">
+			<input
+				bind:this={input}
+				oninput={onUpdate}
+				bind:value={domain.state}
+				style="width: {clientWidth}px"
+				class="placeholder:text-base-content/40 bg-base-100"
+				type="text"
+				placeholder={placeholder.state}
+			/>
+			<button onclick={() => input.focus()} class="text-base-content/45 cursor-text"
+				>.is-a-th.ing</button
+			>
+		</label>
+		<button class="btn btn-primary text-2xl">Fetch</button>
 	</div>
 </div>

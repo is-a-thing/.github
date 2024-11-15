@@ -1,7 +1,7 @@
 import { DESEC_TOKEN } from '$env/static/private'
 
-import { None, Option, Some } from '@oxi/option'
-import { Err, Ok, Result } from '@oxi/result'
+import { None, type Option, Some } from '@oxi/option'
+import { Err, Ok, type Result } from '@oxi/result'
 
 async function fetchDesec(path: string, init?: RequestInit) {
 	return await fetch(new URL(path, 'https://desec.io'), {

@@ -4,7 +4,7 @@ import github from '$lib/server/auth/github'
 import { db } from '$lib/server/db'
 
 import { error, isHttpError } from '@sveltejs/kit'
-import { OAuth2RequestError, OAuth2Tokens } from 'arctic'
+import { OAuth2RequestError, type OAuth2Tokens } from 'arctic'
 import { DateTime } from 'luxon'
 
 export async function GET({ url, cookies }) {

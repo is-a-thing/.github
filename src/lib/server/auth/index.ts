@@ -2,7 +2,7 @@ import { dev } from '$app/environment'
 
 import { sha256 } from '@oslojs/crypto/sha2'
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding'
-import { None, Option, Some } from '@oxi/option'
+import { None, type Option, Some } from '@oxi/option'
 import type { Cookies } from '@sveltejs/kit'
 import type { z } from 'zod'
 
