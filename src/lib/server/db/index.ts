@@ -1,9 +1,13 @@
-import { dev } from '$app/environment'
+let openKv: typeof import("@deno/kv")['openKv'];
+if(globalThis.doDenoKvNPM) {
+	openKv = (await import("@deno/kv"))['openKv']
+} else {
+	openKv = Deno.openKv
+}
 
-import { openKv } from '@deno/kv'
 import { collection, kvdex } from '@olli/kvdex'
-
 import * as schema from './schema'
+import { dev } from '$app/environment';
 
 export { schema }
 
