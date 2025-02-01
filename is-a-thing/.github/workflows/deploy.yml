@@ -1,0 +1,48 @@
+name: Deploy
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: prod
+
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.10
+
+      - name: Install step
+        run: 'bun i'
+
+      - name: Build step
+        run: 'bun run build'
+        env:
+          ID_GITHUB: ${{ secrets.ID_GITHUB }}
+          SECRET_GITHUB: ${{ secrets.SECRET_GITHUB }}
+          DESEC_TOKEN: ${{ secrets.DESEC_TOKEN }}
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+
+        with:
+          project: 'is-a-thing'
+          entrypoint: 'mod.ts'
+          root: 'build'
