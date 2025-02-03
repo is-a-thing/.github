@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	{#key Component}
-		<div class="font-jersey15 pt-2 pl-2 flex-grow overflow-y-scroll">
+		<div class="font-jersey15 pt-2 pl-2 grow overflow-y-scroll">
 			<span class="prose">
 				{#if Component}
 					<Component></Component>

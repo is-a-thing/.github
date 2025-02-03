@@ -81,13 +81,13 @@
 <div class="flex flex-col h-full items-center justify-center md:items-start md:pl-32 pb-16">
 	<h1 class="text-6xl">Free is-a-th.ing subdomain</h1>
 	<div class="flex flex-row gap-x-2">
-		<label class="flex flex-row text-3xl input input-bordered min-w-96">
+		<label class="flex flex-row text-3xl input gap-x-0 input-bordered min-w-96 max-w-full w-fits">
 			<input
 				bind:this={input}
 				oninput={onUpdate}
 				bind:value={domain.state}
-				style="width: {clientWidth}px"
-				class="placeholder:text-base-content/40 bg-base-100"
+				style="width: {clientWidth}px !important;"
+				class="placeholder:text-base-content/40"
 				type="text"
 				placeholder={placeholder.state}
 			/>

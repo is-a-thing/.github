@@ -49,10 +49,9 @@ const app = wooter()
             const code = url.searchParams.get('code')
             const state = url.searchParams.get('state')
             const storedState = cookies.get('oauth_state') ?? null
-            console.log(code, state, storedState)
             cookies.delete('oauth_state', {
                 path: '/',
-                secure: DEV !== 'true',
+                secure: true,
                 httpOnly: true,
                 maxAge: 60 * 10,
                 sameSite: 'lax'
@@ -98,7 +97,7 @@ const app = wooter()
 
                 createSessionCookie(token, cookies)
 
-                resp(redirectResponse(`https://${MAINPAGE}`))
+                resp(redirectResponse(`${MAINPAGE}`))
             } catch (e) {
                 console.error(e)
                 resp(errorResponse(500, 'Unknown Error'))

@@ -98,7 +98,7 @@ export function createSessionCookie(token: string, cookies: Cookies) {
 		sameSite: 'none',
 		maxAge: expire_time,
 		path: '/',
-		secure: DEV === 'true'?undefined:true
+		secure: true
 	})
 }
 
@@ -108,6 +108,6 @@ export function deleteSessionCookie(cookies: Cookies) {
 		sameSite: 'none',
 		maxAge: 0,
 		path: '/',
-		secure: DEV !== 'true'
+		secure: true
 	})
 }

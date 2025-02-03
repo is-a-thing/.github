@@ -35,9 +35,7 @@ jobs:
       - name: Build step
         run: 'bun run build'
         env:
-          ID_GITHUB: ${{ secrets.ID_GITHUB }}
-          SECRET_GITHUB: ${{ secrets.SECRET_GITHUB }}
-          DESEC_TOKEN: ${{ secrets.DESEC_TOKEN }}
+          PUBLIC_API: "https://api.is-a-th.ing"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1

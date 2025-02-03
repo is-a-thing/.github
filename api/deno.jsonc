@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"dev": "deno serve -A --watch --unstable-kv main.ts",
+		"dev": "deno -A --watch --unstable-kv dev.ts",
 		"db": "./denokv --sqlite-path='./dev/denokv.db' serve"
 	},
 	"imports": {

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_API } from '$env/static/public'
 	import NavbarDropdownItem from '$lib/client/components/NavbarDropdownItem.svelte'
 
 	let { children, data } = $props()
@@ -8,7 +9,7 @@
 
 <div class="navbar bg-base-200 text-base-content">
 	<a href="/" class="btn btn-ghost text-4xl font-jersey15">is-a-th.ing</a>
-	<div class="flex-grow"></div>
+	<div class="grow"></div>
 	<details class="dropdown dropdown-end" bind:open={dropdownOpen}>
 		<summary class="btn">
 			<label class="swap">
@@ -40,7 +41,7 @@
 				</svg>
 			</label>
 		</summary>
-		<ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+		<ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-2xs">
 			{#if data.user}
 				<NavbarDropdownItem href="/~/dashboard">
 					{#snippet icon()}
@@ -81,7 +82,7 @@
 					{data.user.name}
 				</NavbarDropdownItem>
 			{:else}
-				<NavbarDropdownItem href="/auth">
+				<NavbarDropdownItem href="{PUBLIC_API}/auth">
 					{#snippet icon()}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
