@@ -62,7 +62,11 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      
+      - name: Resolve symlink
+        run: |
+          rm ./shared
+          mkdir ./shared
+          cp ../shared/* ./shared
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         
