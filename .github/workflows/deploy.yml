@@ -1,0 +1,72 @@
+name: Deploy
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-site:
+    name: Deploy Site
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: "./site"
+
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.1.10
+
+      - name: Install step
+        run: "bun i"
+
+      - name: Build step
+        run: "bun run build"
+        env:
+          PUBLIC_API: "https://is-a-thing-api.deno.dev"
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+
+        with:
+          project: "is-a-thing"
+          entrypoint: "mod.ts"
+          root: "site/build"
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./api"
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        
+        with:
+          project: "is-a-thing-api"
+          entrypoint: "main.ts"
+          root: "api"
