@@ -1,4 +1,4 @@
-import { ID_GITHUB, SECRET_GITHUB } from '$env/static/private'
+import { ID_GITHUB, SECRET_GITHUB } from '$util/env.ts'
 
 import { GitHub } from 'arctic'
 

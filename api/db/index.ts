@@ -1,7 +1,7 @@
 import { DEV } from '$util/env.ts'
 
 import { collection, kvdex } from '@olli/kvdex'
-import * as schema from '$db/schema.ts'
+import * as schema from "$shared/schema.ts"
 
 export { schema }
 
@@ -15,13 +15,13 @@ export const db = kvdex({
 		auth: {
 			user: collection(schema.user, {
 				indices: {
-					githubId: 'primary',
+					github_id: 'primary',
 				},
-				idGenerator: ({ githubId }) => githubId,
+				idGenerator: ({ github_id }) => github_id,
 			}),
 			session: collection(schema.session, {
 				indices: {
-					userId: 'secondary',
+					user_id: 'secondary',
 					id: 'primary',
 				},
 				idGenerator: ({ id }) => id,
@@ -29,7 +29,7 @@ export const db = kvdex({
 		},
 		domain: collection(schema.domain, {
 			indices: {
-				ownerId: 'secondary',
+				owner_id: 'secondary',
 				name: 'primary',
 			},
 			idGenerator: ({ name }) => name,

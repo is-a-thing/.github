@@ -1,4 +1,4 @@
-import { DESEC_TOKEN } from '$env/static/private'
+import { DESEC_TOKEN, DOMAIN } from '$util/env.ts'
 
 import { None, type Option, Some } from '@oxi/option'
 import { Err, Ok, type Result } from '@oxi/result'
@@ -14,7 +14,7 @@ async function fetchDesec(path: string, init?: RequestInit) {
 	})
 }
 
-const path_RRSet = `/api/v1/domains/is-a-th.ing/rrsets/`
+const path_RRSet = `/api/v1/domains/${DOMAIN}/rrsets/`
 const path_RRSetSubdomain = (subdomain: string) => `${path_RRSet}${subdomain}/NS`
 
 type RRSetResponse = {

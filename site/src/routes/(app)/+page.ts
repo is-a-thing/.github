@@ -1,4 +1,4 @@
-import { normalizeDomainName } from '$lib/utils'
+import { normalizeDomainName } from '$lib/shared/domain'
 
 export function load({ url }) {
 	return {

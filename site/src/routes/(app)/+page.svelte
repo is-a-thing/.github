@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { normalizeDomainName } from '$lib/utils'
+	import { normalizeDomainName } from '$lib/shared/domain'
 	import { delay, debounce } from '@std/async'
 	class Domain {
 		#state = $state('')

@@ -1,5 +1,6 @@
-import type { api } from '$lib/server/api'
-
-import { hc } from 'hono/client'
-
-export default hc<api>('/api')
+export const fetchAPI: typeof fetch = (input, init) => {
+    return fetch(input, {
+        ...init,
+        credentials: 'include'
+    })
+} 
