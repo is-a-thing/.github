@@ -43,4 +43,4 @@ jobs:
         with:
           project: 'is-a-thing'
           entrypoint: 'mod.ts'
-          root: 'build'
+          root: 'site/build'
