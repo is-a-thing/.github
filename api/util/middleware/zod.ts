@@ -11,7 +11,7 @@ export const useZod: MiddlewareHandler<Params, Data, { json: ZodJSON }> = async 
         if (_json) return _json
         try {
             return _json = await request.clone().json()
-        } catch (e) {
+        } catch {
             resp(errorResponse(400, "Invalid JSON"))
             throw ''
         }

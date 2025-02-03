@@ -1,5 +1,3 @@
-import { DEV } from '$util/env.ts'
-
 import { sha256 } from '@oslojs/crypto/sha2'
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding'
 import { None, type Option, Some } from '@oxi/option'

@@ -13,7 +13,6 @@
 		"@oxi/result": "jsr:@oxi/result@^0.3.1",
 		"@std/assert": "jsr:@std/assert@1",
 		"@std/dotenv": "jsr:@std/dotenv@^0.225.3",
-		"@ts-rex/wooter": "jsr:@ts-rex/wooter@^0.1.2",
 		"@types/luxon": "npm:@types/luxon@^3.4.2",
 		"arctic": "npm:arctic@^3.2.2",
 		"cookie": "npm:cookie@^1.0.2",

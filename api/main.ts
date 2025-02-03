@@ -1,6 +1,5 @@
 import { c } from "@bronti/wooter"
 import { wooter } from '$util/middleware/index.ts'
-import z from 'zod'
 import { generateState, OAuth2Tokens } from 'arctic'
 import github from '$auth/github.ts'
 import { DEV, MAINPAGE } from '$util/env.ts'
