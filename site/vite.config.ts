@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from 'vite'
 import fs from "node:fs"
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
 	plugins: [tailwindcss(), sveltekit()],
 	optimizeDeps: {
 		esbuildOptions: {
@@ -14,8 +14,8 @@ export default defineConfig({
 	},
 	server: {
 		https: {
-			cert: fs.readFileSync('./certs/site.marinadev.xyz.pem'),
-			key: fs.readFileSync("./certs/site.marinadev.xyz-key.pem"),
+			cert: mode === 'development'?fs.readFileSync('./certs/site.marinadev.xyz.pem'):undefined,
+			key: mode === 'development'?fs.readFileSync("./certs/site.marinadev.xyz-key.pem"):undefined,
 		},
 		hmr: {
 			protocol: "wss",
@@ -24,4 +24,4 @@ export default defineConfig({
 	resolve: {
 		preserveSymlinks: true
 	},
-})
+}))
