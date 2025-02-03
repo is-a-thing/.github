@@ -2,10 +2,8 @@
 
 @import 'tailwindcss';
 
-/* @config '../tailwind.config.ts'; */
-
+@plugin "@tailwindcss/typography";
 @plugin "daisyui";
-
 @plugin "daisyui/theme" {
 	name: "isathing";
 	default: true;
