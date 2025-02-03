@@ -1,5 +1,7 @@
-import type { api } from '$lib/server/api'
-
-import { hc } from 'hono/client'
-
-export default hc<api>('/api')
+export const fetchAPI = (input: RequestInfo | URL, init?: RequestInit, _fetch?: typeof globalThis.fetch) => {
+    const fetch = _fetch ?? globalThis.fetch
+    return fetch(input, {
+        ...init,
+        credentials: 'include'
+    })
+}

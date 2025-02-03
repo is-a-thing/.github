@@ -5,8 +5,8 @@
 </script>
 
 <li class="flex flex-row">
-	<a {href} class="flex-grow flex flex-row">
+	<a {href} class="grow flex flex-row">
 		{@render icon?.()}
-		<span class="flex-grow flex justify-end text-lg">{@render children()}</span>
+		<span class="grow flex justify-end text-lg">{@render children()}</span>
 	</a>
 </li>

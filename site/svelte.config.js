@@ -1,11 +1,6 @@
-import { Float16Array } from '@petamoriken/float16'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { mdsvex } from 'mdsvex'
 import adapter from 'sveltekit-adapter-deno'
-
-globalThis.Float16Array = Float16Array
-
-globalThis.doDenoKvNPM = true;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

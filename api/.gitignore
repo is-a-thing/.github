@@ -1,1 +1,6 @@
 .env
+dev
+denokv
+
+key.pem
+cert.pem
