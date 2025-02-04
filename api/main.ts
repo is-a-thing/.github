@@ -2,7 +2,7 @@ import { c } from "@bronti/wooter"
 import { wooter } from '$util/middleware/index.ts'
 import { generateState, OAuth2Tokens } from 'arctic'
 import github from '$auth/github.ts'
-import { DEV, MAINPAGE } from '$util/env.ts'
+import { DEV, GITHUB_API, MAINPAGE } from '$util/env.ts'
 import { errorResponse, jsonResponse, redirectResponse } from '@bronti/wooter/util'
 
 // @deno-types="@types/luxon"
