@@ -166,7 +166,7 @@ const app = wooter()
             const domain_count = await domainCount(user.github_id)
             const domain_limit = user.domain_slot_override ?? DOMAIN_LIMIT
 
-            if(domain_limit >= domain_count) return resp(jsonResponse({ ok: false, msg: "domain_limit" }, { status: 400 }))
+            if(domain_count >= domain_limit) return resp(jsonResponse({ ok: false, msg: "domain_limit" }, { status: 400 }))
             db.domain.add({
                 name,
                 owner_id: user.github_id,

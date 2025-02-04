@@ -4,7 +4,7 @@ import { user } from '$lib/shared/schema'
 import type { z } from 'zod'
 
 export async function load({ fetch, depends }) {
-	const userR = await fetchAPI(`/me`, 'GET', {}, fetch)
+	const userR = await fetchAPI(`/me`, { fetch })
 	depends('app:auth')
 	const usr = (userR.ok ? await userR.json() : null) as z.infer<typeof user> | null
 	return {

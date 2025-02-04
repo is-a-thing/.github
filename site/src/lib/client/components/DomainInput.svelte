@@ -102,33 +102,36 @@
 	>{domain.state || placeholder.state}</span
 >
 
-
-<div class="{full?'w-full flex flex-row':'contents'}">
-    <label
-	class="relative flex flex-row text-3xl input-ghost input gap-x-0 input-bordered !min-w-fit {full
-		? 'w-full'
-		: 'w-96'} overflow-visible"
->
-	<input
-		bind:this={input}
-		oninput={onUpdate}
-		bind:value={domain.state}
-		style="width: {clientWidth}px !important;"
-		class="placeholder:text-base-content/40"
-		class:text-error={available === false}
-		type="text"
-		placeholder={placeholder.state}
-	/>
-	<button onclick={() => input.focus()} class="text-base-content/45 cursor-text"
-		>.is-a-th.ing</button
+<div class={full ? 'w-full flex flex-row' : 'contents'}>
+	<label
+		class="relative flex flex-row text-3xl input-ghost input gap-x-0 input-bordered !min-w-fit {full
+			? 'w-full'
+			: 'w-96'} overflow-visible"
 	>
-	<div class="absolute flex items-center justify-center right-2">
-		<span
-			class="status transition-colors"
-			class:status-success={available === true}
-			class:status-error={available === false}
-		></span>
-	</div>
-</label>
-<a href="/dashboard/get/{domain.state}" class="btn btn-primary text-2xl" class:btn-disabled={available !== true}>Fetch</a>
+		<input
+			bind:this={input}
+			oninput={onUpdate}
+			bind:value={domain.state}
+			style="width: {clientWidth}px !important;"
+			class="placeholder:text-base-content/40"
+			class:text-error={available === false}
+			type="text"
+			placeholder={placeholder.state}
+		/>
+		<button onclick={() => input.focus()} class="text-base-content/45 cursor-text"
+			>.is-a-th.ing</button
+		>
+		<div class="absolute flex items-center justify-center right-2">
+			<span
+				class="status transition-colors"
+				class:status-success={available === true}
+				class:status-error={available === false}
+			></span>
+		</div>
+	</label>
+	<a
+		href="/dashboard/get/{domain.state}"
+		class="btn btn-primary text-2xl"
+		class:btn-disabled={available !== true}>Fetch</a
+	>
 </div>

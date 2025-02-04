@@ -7,14 +7,14 @@ export const publicApi = PUBLIC_API
 
 export const fetchAPI = (
 	path: string,
-	method?: string,
-	init?: RequestInit,
-	_fetch?: typeof globalThis.fetch
+	opts?: {
+		init?: RequestInit
+		fetch?: typeof globalThis.fetch
+	}
 ) => {
-	const fetch = _fetch ?? globalThis.fetch
+	const fetch = opts?.fetch ?? globalThis.fetch
 	return fetch(`${PUBLIC_API}${path}`, {
-		...init,
-		method,
+		...opts?.init,
 		credentials: 'include'
 	})
 }
