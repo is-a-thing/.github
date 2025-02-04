@@ -4,14 +4,15 @@
 
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
+
 @plugin "daisyui/theme" {
-	name: "isathing";
+	name: 'isathing';
 	default: true;
 	prefersdark: false;
-	color-scheme: "light";
+	color-scheme: 'light';
 	--color-base-100: #011525;
-	--color-base-200: #01111E;
-	--color-base-300: #010E19;
+	--color-base-200: #01111e;
+	--color-base-300: #010e19;
 	--color-base-content: #51aafa;
 	--color-primary: #51aafa;
 	--color-primary-content: oklch(0% 0 0);
@@ -23,26 +24,26 @@
 	--color-neutral-content: oklch(98% 0 0);
 	--color-info: #51aafa;
 	--color-info-content: oklch(0% 0 0);
-	--color-success: oklch(89% 0.196 126.665);
+	--color-success: oklch(79% 0.209 151.711);
 	--color-success-content: oklch(0% 0 0);
 	--color-warning: oklch(90% 0.182 98.111);
 	--color-warning-content: oklch(0% 0 0);
 	--color-error: oklch(70% 0.191 22.216);
 	--color-error-content: oklch(0% 0 0);
-	--radius-selector: 0.5rem;
-	--radius-field: 0.5rem;
-	--radius-box: 0.5rem;
+	--radius-selector: 0rem;
+	--radius-field: 0rem;
+	--radius-box: 0rem;
 	--size-selector: 0.25rem;
 	--size-field: 0.25rem;
 	--border: 1px;
 	--depth: 1;
 	--noise: 0;
-}  
+}
 
 @theme inline {
 	--font-sans: var(--font-jersey10);
-	--font-jersey10: "Jersey 10", var(--font-mono);
-	--font-jersey15: "Jersey 15", var(--font-mono);
+	--font-jersey10: 'Jersey 10', var(--font-mono);
+	--font-jersey15: 'Jersey 15', var(--font-mono);
 }
 
 /*
@@ -54,16 +55,16 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
 }
 
 html,
 body {
-	@apply h-full overflow-hidden;
+	@apply h-full overflow-y-scroll bg-base-100;
 }

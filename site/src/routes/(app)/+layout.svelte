@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_API } from '$env/static/public'
+	import { publicApi } from '$lib/client/api/index.js'
 	import NavbarDropdownItem from '$lib/client/components/NavbarDropdownItem.svelte'
 
 	let { children, data } = $props()
@@ -7,7 +7,7 @@
 	let dropdownOpen = $state(false)
 </script>
 
-<div class="navbar bg-base-200 text-base-content">
+<div class="fixed top-0 backdrop-blur navbar bg-base-200/80 text-base-content z-1">
 	<a href="/" class="btn btn-ghost text-4xl font-jersey15">is-a-th.ing</a>
 	<div class="grow"></div>
 	<details class="dropdown dropdown-end" bind:open={dropdownOpen}>
@@ -41,9 +41,9 @@
 				</svg>
 			</label>
 		</summary>
-		<ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-2xs">
+		<ul class="menu z-1 dropdown-content bg-base-100 rounded-box border w-52 p-2 shadow-2xs">
 			{#if data.user}
-				<NavbarDropdownItem href="/~/dashboard">
+				<NavbarDropdownItem href="/dashboard/~">
 					{#snippet icon()}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@
 					{/snippet}
 					My Domains
 				</NavbarDropdownItem>
-				<NavbarDropdownItem href="/~/account">
+				<NavbarDropdownItem href="/dashboard/settings">
 					{#snippet icon()}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +82,7 @@
 					{data.user.name}
 				</NavbarDropdownItem>
 			{:else}
-				<NavbarDropdownItem href="{PUBLIC_API}/auth">
+				<NavbarDropdownItem href="{publicApi}/auth">
 					{#snippet icon()}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -124,4 +124,5 @@
 		</ul>
 	</details>
 </div>
+<div class="h-16"></div>
 {@render children?.()}

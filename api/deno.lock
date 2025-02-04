@@ -12,9 +12,9 @@
     "jsr:@std/cli@^1.0.6": "1.0.11",
     "jsr:@std/collections@^1.0.9": "1.0.10",
     "jsr:@std/dotenv@~0.225.3": "0.225.3",
+    "jsr:@std/encoding@*": "1.0.6",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0",
-    "jsr:@ts-rex/wooter@~0.1.2": "0.1.2",
     "npm:@deno/kv@0.9": "0.9.0",
     "npm:@oslojs/crypto@^1.0.1": "1.0.1",
     "npm:@oslojs/encoding@^1.1.0": "1.1.0",
@@ -78,17 +78,14 @@
     "@std/dotenv@0.225.3": {
       "integrity": "a95e5b812c27b0854c52acbae215856d9cce9d4bbf774d938c51d212711e8d4a"
     },
+    "@std/encoding@1.0.6": {
+      "integrity": "ca87122c196e8831737d9547acf001766618e78cd8c33920776c7f5885546069"
+    },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
     "@std/ulid@1.0.0": {
       "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
-    },
-    "@ts-rex/wooter@0.1.2": {
-      "integrity": "366d31ad358ab544cb40beccdacd1599a960c41d7265af3aef5ee5fa9cdf3f63",
-      "dependencies": [
-        "jsr:@dldc/chemin"
-      ]
     }
   },
   "npm": {
@@ -170,7 +167,6 @@
       "jsr:@oxi/result@~0.3.1",
       "jsr:@std/assert@1",
       "jsr:@std/dotenv@~0.225.3",
-      "jsr:@ts-rex/wooter@~0.1.2",
       "npm:@deno/kv@0.9",
       "npm:@oslojs/crypto@^1.0.1",
       "npm:@oslojs/encoding@^1.1.0",

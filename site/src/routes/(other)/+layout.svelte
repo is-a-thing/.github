@@ -1,5 +1,5 @@
 <script>
-    const { children } = $props()
+	const { children } = $props()
 </script>
 
 <div class="navbar bg-base-200 text-base-content">

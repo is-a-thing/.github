@@ -1,10 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import tailwindcss from "@tailwindcss/vite"
+import tailwindcss from '@tailwindcss/vite'
+import fs from 'node:fs'
 import { defineConfig } from 'vite'
-import fs from "node:fs"
 
 export default defineConfig(({ mode }) => ({
-	plugins: [tailwindcss(), sveltekit()],
+	plugins: [sveltekit(), tailwindcss()],
 	optimizeDeps: {
 		esbuildOptions: {
 			loader: {
@@ -14,14 +14,15 @@ export default defineConfig(({ mode }) => ({
 	},
 	server: {
 		https: {
-			cert: mode === 'development'?fs.readFileSync('./certs/site.marinadev.xyz.pem'):undefined,
-			key: mode === 'development'?fs.readFileSync("./certs/site.marinadev.xyz-key.pem"):undefined,
+			cert: mode === 'development' ? fs.readFileSync('./certs/site.marinadev.xyz.pem') : undefined,
+			key:
+				mode === 'development' ? fs.readFileSync('./certs/site.marinadev.xyz-key.pem') : undefined
 		},
 		hmr: {
-			protocol: "wss",
-		},
+			protocol: 'wss'
+		}
 	},
 	resolve: {
 		preserveSymlinks: true
-	},
+	}
 }))

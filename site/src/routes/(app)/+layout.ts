@@ -1,15 +1,16 @@
-import type { z } from "zod";
-import { user } from "$lib/shared/schema"
-import { PUBLIC_API } from "$env/static/public";
-import { fetchAPI } from "$lib/client/api/index.js";
+import { fetchAPI } from '$lib/client/api/index.js'
+import { user } from '$lib/shared/schema'
 
-export async function load({ fetch }) {
-	const userR = await fetchAPI(`${PUBLIC_API}/me`, {}, fetch)
+import type { z } from 'zod'
+
+export async function load({ fetch, depends }) {
+	const userR = await fetchAPI(`/me`, 'GET', {}, fetch)
+	depends('app:auth')
 	const usr = (userR.ok ? await userR.json() : null) as z.infer<typeof user> | null
 	return {
 		user: usr
 	}
 }
 
-export const csr = true;
-export const ssr = false;
+export const csr = true
+export const ssr = false

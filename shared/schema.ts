@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const user = z.object({
 	github_id: z.string(),
-	domain_slots: z.number(),
+	domain_slot_override: z.number().optional(),
 	name: z.string(),
 })
 
@@ -27,7 +27,7 @@ export const domain = z
 				active: z.literal(true),
 				activated_at: z.date(),
 				NS_records: z.string().array(), // this is the intended NS values of the domain
-				last_push: z.date(), // last time the value was pushed to DNS (only allowed to push every 15m)
+				last_push: z.date().optional(), // last time the value was pushed to DNS (only allowed to push every 15m)
 				current_value_pushed: z.boolean(), // has the current value been pushed? (if the user edited NS during the timeout, the current value has not been pushed)
 			}),
 		]),

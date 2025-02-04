@@ -4,11 +4,18 @@ import { useCookies } from '$util/middleware/cookies.ts'
 import { useAuth } from '$util/middleware/auth.ts'
 import { MAINPAGE } from '$util/env.ts'
 
+function addCors(response: Response) {
+    response.headers.set("Access-Control-Allow-Origin", MAINPAGE)
+    response.headers.set("Access-Control-Allow-Credentials", "true")
+}
+
 export function wooter() {
     return new Wooter().use(async ({ up }) => {
-        // CORS
-        const request = await up();
-        request.headers.set("Access-Control-Allow-Origin", MAINPAGE)
-        request.headers.set("Access-Control-Allow-Credentials", "true")
-    }).use(useZod).use(useCookies).use(useAuth).useMethods()
+        const response = await up();
+        addCors(response)
+    }).use(useZod).use(useCookies).use(useAuth).notFound(async ({ resp, url }) => {
+        const response = new Response(`Not Found ${url.pathname}`, { status: 404 })
+        addCors(response)
+        resp(response)
+    }).useMethods()
 }
