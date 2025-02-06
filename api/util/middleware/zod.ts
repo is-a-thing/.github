@@ -1,11 +1,11 @@
-import type { MiddlewareHandler, Params, Data } from '@bronti/wooter/types'
+import type { StandaloneMiddlewareHandler } from '@bronti/wooter/types'
 import { jsonResponse, errorResponse } from "@bronti/wooter/util"
 import type { ZodSchema, z } from 'zod'
 import { ZodError } from 'zod'
 
-type ZodJSON = <T extends ZodSchema>(schema: T) => Promise<z.infer<T>>;
+export type ZodJSON = <T extends ZodSchema>(schema: T) => Promise<z.infer<T>>;
 
-export const useZod: MiddlewareHandler<Params, Data, { json: ZodJSON }> = async ({ up, request, resp, err }) => {
+export const useZod: StandaloneMiddlewareHandler<{ json: ZodJSON }> = async ({ up, request, resp, err }) => {
     let _json: unknown;
     async function getJson() {
         if (_json) return _json

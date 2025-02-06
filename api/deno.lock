@@ -1,33 +1,40 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@bronti/wooter@~0.2.1": "0.2.1",
+    "jsr:@bronti/wooter@~0.2.2": "0.2.2",
+    "jsr:@bronti/wooter@~0.2.3": "0.2.3",
     "jsr:@dldc/chemin@^12.0.1": "12.0.1",
     "jsr:@olli/kvdex@^3.1.0": "3.1.0",
     "jsr:@oxi/core@~0.2.1": "0.2.1",
     "jsr:@oxi/option@0.2": "0.2.0",
     "jsr:@oxi/result@~0.3.1": "0.3.1",
     "jsr:@std/assert@1": "1.0.11",
-    "jsr:@std/bytes@^1.0.4": "1.0.4",
-    "jsr:@std/cli@^1.0.6": "1.0.11",
+    "jsr:@std/bytes@^1.0.4": "1.0.5",
+    "jsr:@std/cli@^1.0.6": "1.0.12",
     "jsr:@std/collections@^1.0.9": "1.0.10",
     "jsr:@std/dotenv@~0.225.3": "0.225.3",
-    "jsr:@std/encoding@*": "1.0.6",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0",
     "npm:@deno/kv@0.9": "0.9.0",
     "npm:@oslojs/crypto@^1.0.1": "1.0.1",
     "npm:@oslojs/encoding@^1.1.0": "1.1.0",
     "npm:@types/luxon@^3.4.2": "3.4.2",
-    "npm:arctic@^3.2.2": "3.2.2",
+    "npm:@types/node@*": "22.5.4",
+    "npm:arctic@^3.2.2": "3.2.3",
     "npm:cookie@^1.0.2": "1.0.2",
     "npm:luxon@^3.5.0": "3.5.0",
     "npm:zod@^3.23.8": "3.24.1",
     "npm:zod@^3.24.1": "3.24.1"
   },
   "jsr": {
-    "@bronti/wooter@0.2.1": {
-      "integrity": "231d816871ae06d3e1fe6ce160fc13cf8549ff5a4102a7133763f58548ee6782",
+    "@bronti/wooter@0.2.2": {
+      "integrity": "8d9867eb7ff9d518dfe4d425d30f1fc48f21902f05ec60e26c8b868bd83d763e",
+      "dependencies": [
+        "jsr:@dldc/chemin"
+      ]
+    },
+    "@bronti/wooter@0.2.3": {
+      "integrity": "adef4394ae84d6b19972338591e2b7b05fb73abf7e422ddb08c89c054af61b05",
       "dependencies": [
         "jsr:@dldc/chemin"
       ]
@@ -66,20 +73,17 @@
         "jsr:@std/internal"
       ]
     },
-    "@std/bytes@1.0.4": {
-      "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
+    "@std/bytes@1.0.5": {
+      "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
     },
-    "@std/cli@1.0.11": {
-      "integrity": "ec219619fdcd31bcf0d8e53bee1e2706ec9a02f70255365a094f69755dadd340"
+    "@std/cli@1.0.12": {
+      "integrity": "e5cfb7814d189da174ecd7a34fbbd63f3513e24a1b307feb2fcd5da47a070d90"
     },
     "@std/collections@1.0.10": {
       "integrity": "903af106a3d92970d74e20f7ebff77d9658af9bef4403f1dc42a7801c0575899"
     },
     "@std/dotenv@0.225.3": {
       "integrity": "a95e5b812c27b0854c52acbae215856d9cce9d4bbf774d938c51d212711e8d4a"
-    },
-    "@std/encoding@1.0.6": {
-      "integrity": "ca87122c196e8831737d9547acf001766618e78cd8c33920776c7f5885546069"
     },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
@@ -141,8 +145,14 @@
     "@types/luxon@3.4.2": {
       "integrity": "sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA=="
     },
-    "arctic@3.2.2": {
-      "integrity": "sha512-wypdE8NnUOMbxsKtKGn57pEtt47EBvwVOFutGVmOPEHfg4nizOfVwl+yWpp7cUCkZJptuHh7hJixsrUhMOpusw==",
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "arctic@3.2.3": {
+      "integrity": "sha512-DZkXM+ASHEaENRsq7pA8DL9smkerLDA9R8aziH0IQhiU+uuxDCzeF+YJ6Wc3gss8yhSrPdDNzMTbiVviVltJDA==",
       "dependencies": [
         "@oslojs/crypto",
         "@oslojs/encoding@1.1.0",
@@ -155,13 +165,16 @@
     "luxon@3.5.0": {
       "integrity": "sha512-rh+Zjr6DNfUYR3bPwJEnuwDdqMbxZW7LOQfUN4B54+Cl+0o5zaU9RJ6bcidfDtC1cWCZXQ+nvX8bf6bAji37QQ=="
     },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    },
     "zod@3.24.1": {
       "integrity": "sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A=="
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@bronti/wooter@~0.2.1",
+      "jsr:@bronti/wooter@~0.2.3",
       "jsr:@olli/kvdex@^3.1.0",
       "jsr:@oxi/option@0.2",
       "jsr:@oxi/result@~0.3.1",

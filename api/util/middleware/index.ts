@@ -13,7 +13,7 @@ export function initWooter() {
     return new Wooter().use(async ({ up }) => {
         const response = await up();
         addCors(response)
-    }).use(useZod).use(useCookies).use(useAuth).notFound(async ({ resp, url }) => {
+    }).use(useCookies).use(useZod).use(useAuth).notFound(async ({ resp, url }) => {
         const response = new Response(`Not Found ${url.pathname}`, { status: 404 })
         addCors(response)
         resp(response)

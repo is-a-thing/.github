@@ -1,12 +1,12 @@
 
-import { MiddlewareHandler, Params } from '@bronti/wooter/types'
+import { StandaloneMiddlewareHandler } from '@bronti/wooter/types'
 import { createSessionCookie, deleteSessionCookie, validateSessionToken } from '$auth/index.ts'
 import { AuthPair } from '$auth/index.ts'
 import { Cookies } from '$util/middleware/cookies.ts'
 import { None, Option } from '@oxi/option'
 import { errorResponse } from '@bronti/wooter/util'
 
-export const useAuth: MiddlewareHandler<Params, { cookies: Cookies }, { auth: Option<AuthPair>, ensureAuth: () => AuthPair }> = async ({ data: { cookies }, up, resp }) => {
+export const useAuth: StandaloneMiddlewareHandler<{ auth: Option<AuthPair>, ensureAuth: () => AuthPair }, { cookies: Cookies }> = async ({ data: { cookies }, up, resp }) => {
 	const token = cookies.get('session') ?? null
 	let auth: Option<AuthPair> = None
 	if (token) {

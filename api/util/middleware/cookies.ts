@@ -3,7 +3,7 @@ import {
 	serialize,
 	type SerializeOptions,
 } from "cookie"
-import { MiddlewareHandler, Params, Data } from "@bronti/wooter/types"
+import { StandaloneMiddlewareHandler } from '@bronti/wooter/types'
 
 
 export type Cookies = {
@@ -13,7 +13,7 @@ export type Cookies = {
 	set(name: string, value: string, options?: Partial<SerializeOptions>): void
 }
 
-export const useCookies: MiddlewareHandler<Params, Data, { cookies: Cookies }> = async ({ request, resp, up }) => {
+export const useCookies: StandaloneMiddlewareHandler<{ cookies: Cookies }> = async ({ request, resp, up }) => {
     const cookieHeader = request.headers.get("cookie") || ""
     const parsedCookies = parse(cookieHeader)
     const cookieMap: Record<
