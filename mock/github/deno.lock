@@ -1,14 +1,14 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@bronti/wooter@0.2": "0.2.0",
+    "jsr:@bronti/wooter@~0.2.1": "0.2.1",
     "jsr:@dldc/chemin@^12.0.1": "12.0.1",
     "npm:@types/luxon@^3.4.2": "3.4.2",
     "npm:luxon@^3.5.0": "3.5.0"
   },
   "jsr": {
-    "@bronti/wooter@0.2.0": {
-      "integrity": "d917ff425b815f6417fc1cd0f1d095ffeea149862e009ba7f144654ea18b21fa",
+    "@bronti/wooter@0.2.1": {
+      "integrity": "231d816871ae06d3e1fe6ce160fc13cf8549ff5a4102a7133763f58548ee6782",
       "dependencies": [
         "jsr:@dldc/chemin"
       ]
@@ -27,7 +27,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@bronti/wooter@0.2",
+      "jsr:@bronti/wooter@~0.2.1",
       "npm:@types/luxon@^3.4.2",
       "npm:luxon@^3.5.0"
     ]

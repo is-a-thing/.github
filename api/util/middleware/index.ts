@@ -9,7 +9,7 @@ function addCors(response: Response) {
     response.headers.set("Access-Control-Allow-Credentials", "true")
 }
 
-export function wooter() {
+export function initWooter() {
     return new Wooter().use(async ({ up }) => {
         const response = await up();
         addCors(response)

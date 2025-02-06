@@ -4,7 +4,7 @@
 		"db": "./denokv --sqlite-path='./dev/denokv.db' serve"
 	},
 	"imports": {
-		"@bronti/wooter": "jsr:@bronti/wooter@^0.2.0",
+		"@bronti/wooter": "jsr:@bronti/wooter@^0.2.1",
 		"@deno/kv": "npm:@deno/kv@^0.9.0",
 		"@olli/kvdex": "jsr:@olli/kvdex@^3.1.0",
 		"@oslojs/crypto": "npm:@oslojs/crypto@^1.0.1",
