@@ -32,3 +32,10 @@ export const domain = z
 			}),
 		]),
 	)
+
+
+export const full_user = z.object({
+	user,
+	domains: domain.array(),
+	slots: z.number()
+})

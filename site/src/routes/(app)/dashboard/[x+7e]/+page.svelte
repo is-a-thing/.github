@@ -3,6 +3,7 @@
 	import { domain } from '$lib/shared/schema'
 
 	const { data } = $props()
+	const { auth } = data
 </script>
 
 <h1 class="text-4xl">Domains</h1>
@@ -23,7 +24,7 @@
 {/snippet}
 
 <ul class="list mx-5 bg-base-100 rounded-box border">
-	{#each data.domains as domain}
+	{#each auth.domains as domain}
 		{@render renderDomain(domain)}
 	{/each}
 </ul>

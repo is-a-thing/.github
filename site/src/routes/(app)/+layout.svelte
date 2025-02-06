@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { publicApi } from '$lib/client/api/index.js'
+	import { publicApi } from '$lib/client/api/index'
 	import NavbarDropdownItem from '$lib/client/components/NavbarDropdownItem.svelte'
 
 	let { children, data } = $props()
+	let { auth } = data
 
 	let dropdownOpen = $state(false)
 </script>
@@ -42,7 +43,7 @@
 			</label>
 		</summary>
 		<ul class="menu z-1 dropdown-content bg-base-100 rounded-box border w-52 p-2 shadow-2xs">
-			{#if data.user}
+			{#if auth?.user}
 				<NavbarDropdownItem href="/dashboard/~">
 					{#snippet icon()}
 						<svg
@@ -79,7 +80,7 @@
 							/>
 						</svg>
 					{/snippet}
-					{data.user.name}
+					{auth.user.name}
 				</NavbarDropdownItem>
 			{:else}
 				<NavbarDropdownItem href="{publicApi}/auth">

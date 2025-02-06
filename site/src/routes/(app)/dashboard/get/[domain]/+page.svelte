@@ -3,7 +3,8 @@
 	import { fetchAPI } from '$lib/client/api'
 
 	const { data } = $props()
-	const { available, domains, slots, domain } = data
+	const { available, auth, domain } = data
+    const { domains, slots } = auth
 	invalidate('app:auth')
 
 	async function get() {

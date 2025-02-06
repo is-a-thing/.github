@@ -1,20 +1,11 @@
-import { fetchAPI, publicApi } from '$lib/client/api'
-import { domain } from '$lib/shared/schema'
+import { publicApi } from '$lib/client/api'
 
 import { redirect } from '@sveltejs/kit'
 
-export async function load({ parent, url, fetch }) {
-	const { user } = await parent()
-	if (!user) redirect(303, `${publicApi}/auth?next=${url.pathname}`)
-	const domainsR = await fetchAPI('/me/domains', {
-		fetch
-	})
-	const domains: Zod.infer<typeof domain>[] = await domainsR.json()
-	const slotsR = await fetchAPI('/me/slots', { fetch })
-	const slots: number = await slotsR.json()
+export async function load({ parent, url }) {
+	const { auth } = await parent()
+	if (!auth) redirect(303, `${publicApi}/auth?next=${url.pathname}`)
 	return {
-		user,
-		domains,
-		slots
+		auth
 	}
 }

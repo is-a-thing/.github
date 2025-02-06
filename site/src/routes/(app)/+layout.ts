@@ -1,14 +1,12 @@
-import { fetchAPI } from '$lib/client/api/index.js'
-import { user } from '$lib/shared/schema'
-
-import type { z } from 'zod'
+import { fetchAPI } from '$lib/client/api/index'
+import { full_user } from '$lib/shared/schema'
 
 export async function load({ fetch, depends }) {
-	const userR = await fetchAPI(`/me`, { fetch })
+	const authR = await fetchAPI(`/me/full`, { fetch })
 	depends('app:auth')
-	const usr = (userR.ok ? await userR.json() : null) as z.infer<typeof user> | null
+	const auth: Zod.infer<typeof full_user> | null = (authR.ok ? await authR.json() : null)
 	return {
-		user: usr
+		auth,
 	}
 }
 
