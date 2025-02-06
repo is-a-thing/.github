@@ -1,8 +1,7 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@bronti/wooter@~0.2.2": "0.2.2",
-    "jsr:@bronti/wooter@~0.2.3": "0.2.3",
+    "jsr:@bronti/wooter@~0.2.4": "0.2.4",
     "jsr:@dldc/chemin@^12.0.1": "12.0.1",
     "jsr:@olli/kvdex@^3.1.0": "3.1.0",
     "jsr:@oxi/core@~0.2.1": "0.2.1",
@@ -13,6 +12,7 @@
     "jsr:@std/cli@^1.0.6": "1.0.12",
     "jsr:@std/collections@^1.0.9": "1.0.10",
     "jsr:@std/dotenv@~0.225.3": "0.225.3",
+    "jsr:@std/encoding@*": "1.0.7",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0",
     "npm:@deno/kv@0.9": "0.9.0",
@@ -27,14 +27,8 @@
     "npm:zod@^3.24.1": "3.24.1"
   },
   "jsr": {
-    "@bronti/wooter@0.2.2": {
-      "integrity": "8d9867eb7ff9d518dfe4d425d30f1fc48f21902f05ec60e26c8b868bd83d763e",
-      "dependencies": [
-        "jsr:@dldc/chemin"
-      ]
-    },
-    "@bronti/wooter@0.2.3": {
-      "integrity": "adef4394ae84d6b19972338591e2b7b05fb73abf7e422ddb08c89c054af61b05",
+    "@bronti/wooter@0.2.4": {
+      "integrity": "af4c15e22c39cedfdd8b41d3968d5dfcad9bccdc0827d10bca091bdb8f1aa3ab",
       "dependencies": [
         "jsr:@dldc/chemin"
       ]
@@ -84,6 +78,9 @@
     },
     "@std/dotenv@0.225.3": {
       "integrity": "a95e5b812c27b0854c52acbae215856d9cce9d4bbf774d938c51d212711e8d4a"
+    },
+    "@std/encoding@1.0.7": {
+      "integrity": "f631247c1698fef289f2de9e2a33d571e46133b38d042905e3eac3715030a82d"
     },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
@@ -174,7 +171,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@bronti/wooter@~0.2.3",
+      "jsr:@bronti/wooter@~0.2.4",
       "jsr:@olli/kvdex@^3.1.0",
       "jsr:@oxi/option@0.2",
       "jsr:@oxi/result@~0.3.1",

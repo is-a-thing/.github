@@ -1,4 +1,3 @@
-
 import { StandaloneMiddlewareHandler } from '@bronti/wooter/types'
 import { createSessionCookie, deleteSessionCookie, validateSessionToken } from '$auth/index.ts'
 import { AuthPair } from '$auth/index.ts'

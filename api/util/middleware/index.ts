@@ -10,12 +10,11 @@ function addCors(response: Response) {
 }
 
 export function initWooter() {
-    return new Wooter().use(async ({ up }) => {
-        const response = await up();
-        addCors(response)
-    }).use(useCookies).use(useZod).use(useAuth).notFound(async ({ resp, url }) => {
+    return new Wooter().useMethods().use(async ({ up }) => {
+        addCors(await up())
+    }).use(useCookies).use(useAuth).use(useZod).notFound(({ resp, url }) => {
         const response = new Response(`Not Found ${url.pathname}`, { status: 404 })
         addCors(response)
         resp(response)
-    }).useMethods()
+    })
 }
