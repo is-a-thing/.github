@@ -7,6 +7,6 @@ export async function load({ parent, fetch, params: { domain } }) {
 	return {
 		auth,
 		available,
-		domain,
+		domain
 	}
 }

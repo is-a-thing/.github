@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
 
-	const { href, icon, children }: { href: string; icon: Snippet; children: Snippet } = $props()
+	let { href, icon, children }: { href: string; icon: Snippet; children: Snippet } = $props()
 </script>
 
 <li class="flex flex-row">

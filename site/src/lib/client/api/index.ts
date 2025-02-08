@@ -22,7 +22,7 @@ export const fetchAPI = (
 export const logout = async () => {
 	await fetchAPI('/auth/logout', {
 		init: {
-			method: "POST"
+			method: 'POST'
 		}
 	})
 	await goto('/')

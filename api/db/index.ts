@@ -1,7 +1,7 @@
 import { DEV } from '$util/env.ts'
 
 import { collection, kvdex } from '@olli/kvdex'
-import * as schema from "$shared/schema.ts"
+import * as schema from '$shared/schema.ts'
 
 export { schema }
 

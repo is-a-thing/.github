@@ -10,6 +10,7 @@
 
 <div class="fixed top-0 backdrop-blur navbar bg-base-200/80 text-base-content z-1">
 	<a href="/" class="btn btn-ghost text-4xl font-jersey15">is-a-th.ing</a>
+	<div class="badge badge-warning uppercase">wip</div>
 	<div class="grow"></div>
 	<details class="dropdown dropdown-end" bind:open={dropdownOpen}>
 		<summary class="btn">
@@ -61,7 +62,7 @@
 							/>
 						</svg>
 					{/snippet}
-					My Domains
+					my domains
 				</NavbarDropdownItem>
 				<NavbarDropdownItem href="/dashboard/settings">
 					{#snippet icon()}
@@ -80,7 +81,7 @@
 							/>
 						</svg>
 					{/snippet}
-					{auth.user.name}
+					{auth.user.name.toLocaleLowerCase()}
 				</NavbarDropdownItem>
 			{:else}
 				<NavbarDropdownItem href="{publicApi}/auth">
@@ -100,10 +101,10 @@
 							/>
 						</svg>
 					{/snippet}
-					Log In
+					login
 				</NavbarDropdownItem>
 			{/if}
-			<NavbarDropdownItem href="/docs">
+			<!-- <NavbarDropdownItem  href="/docs">
 				{#snippet icon()}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -120,8 +121,8 @@
 						/>
 					</svg>
 				{/snippet}
-				Help
-			</NavbarDropdownItem>
+				help
+			</NavbarDropdownItem> -->
 		</ul>
 	</details>
 </div>

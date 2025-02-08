@@ -1,4 +1,4 @@
-import { c } from "@bronti/wooter"
+import { c } from '@bronti/wooter'
 import { initWooter } from '$util/middleware/index.ts'
 
 import { authNamespace } from './routers/auth.ts'
@@ -7,13 +7,19 @@ import { domainsRouter } from './routers/domains.ts'
 import { redirectResponse } from '@bronti/wooter/util'
 import { MAINPAGE } from '$util/env.ts'
 
-
 const app = initWooter()
-    .namespace(c.chemin('auth'), wooter => wooter.useMethods(), authNamespace)
-    .namespace(c.chemin('me'), wooter => mePreRouter(wooter), meRouter)
-    .namespace(c.chemin('domains'), wooter => wooter.useMethods(), domainsRouter)
-    .GET(c.chemin(), async ({ resp }) => {
-        resp(redirectResponse(MAINPAGE))
-    })
+	.namespace(c.chemin('auth'), (wooter) => wooter.useMethods(), authNamespace)
+	// @ts-expect-error: Need to fix this in wooter, but it's not a big deal at the moment
+	.namespace(c.chemin('me'), (wooter) => {
+		return mePreRouter(wooter.useMethods())
+	}, meRouter)
+	.namespace(
+		c.chemin('domains'),
+		(wooter) => wooter.useMethods(),
+		domainsRouter,
+	)
+	.GET(c.chemin(), ({ resp }) => {
+		resp(redirectResponse(MAINPAGE))
+	})
 
-export default { fetch: app.fetch };
+export default { fetch: app.fetch }

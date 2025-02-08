@@ -2,7 +2,7 @@
 	import '$lib/client/docs'
 	import { match } from '$lib/client/docs'
 
-	const { data } = $props()
+	let { data } = $props()
 	let { page: _page } = data
 	const page = $derived(`/${_page}`)
 	let Component = match(page)

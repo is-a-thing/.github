@@ -131,7 +131,7 @@
 	</label>
 	<a
 		href="/dashboard/get/{domain.state}"
-		class="btn btn-primary text-2xl"
-		class:btn-disabled={available !== true}>Fetch</a
+		class="btn btn-primary text-2xl uppercase"
+		class:btn-disabled={available !== true}>fetch</a
 	>
 </div>
