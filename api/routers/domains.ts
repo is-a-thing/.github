@@ -6,12 +6,18 @@ import { db } from '$db/index.ts'
 import { domainCount, domainSlots } from '$db/fn.ts'
 import { domainSettings } from '$shared/schema.ts'
 import { setRRSet } from '$util/desec.ts'
+import { AuthPair } from '$auth/index.ts'
+import { Option } from '@oxi/option'
+
+function isAdmin(pair: Option<AuthPair>) {
+	return pair.isSome() && pair.unwrap().user.github_id === '76607214'
+}
 
 export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 	wooter.GET(
 		c.chemin('available', c.pString('name')),
-		async ({ params: { name }, resp }) => {
-			if (!checkDomainName(name)) return resp(jsonResponse(false))
+		async ({ params: { name }, resp, data: { auth } }) => {
+			if (!isAdmin(auth) && !checkDomainName(name)) return resp(jsonResponse(false))
 			const result = await db.domain.find(name)
 			if (result) return resp(jsonResponse(false))
 			resp(jsonResponse(true))
@@ -20,12 +26,20 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 
 	wooter.POST(
 		c.chemin('get', c.pString('name')),
-		async ({ data: { ensureAuth }, resp, params: { name } }) => {
+		async ({ data: { ensureAuth, auth }, resp, params: { name } }) => {
 			const { user } = ensureAuth()
 			const domain_count = await domainCount(user.github_id)
 			const domain_limit = domainSlots(user.domain_slot_override)
 
-			if (domain_count >= domain_limit) {
+            if(!isAdmin(auth) && !checkDomainName(name)) {
+                return resp(
+                    jsonResponse({ ok: false, msg: 'invalid_domain' }, {
+                        status: 400,
+                    })
+                )
+            }
+
+			if (!isAdmin(auth) && domain_count >= domain_limit) {
 				return resp(
 					jsonResponse({ ok: false, msg: 'domain_limit' }, {
 						status: 400,
