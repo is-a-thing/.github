@@ -3,6 +3,8 @@
     "dev": "deno serve --watch --port=8001 --unstable-kv main.ts"
   },
   "imports": {
-    "@types/luxon": "npm:@types/luxon@^3.4.2"
+    "@types/luxon": "npm:@types/luxon@^3.4.2",
+    "@bronti/wooter": "jsr:@bronti/wooter@^0.2.4",
+    "luxon": "npm:luxon@^3.5.0"
   }
 }
