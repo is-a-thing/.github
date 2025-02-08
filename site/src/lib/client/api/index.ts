@@ -1,7 +1,5 @@
 import { goto, invalidate } from '$app/navigation'
-import { env } from '$env/dynamic/public'
-
-const { PUBLIC_API } = env
+import { PUBLIC_API } from '$env/static/public'
 
 export const publicApi = PUBLIC_API
 
