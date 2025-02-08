@@ -88,11 +88,12 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 						)
 					}
 
-					db.domain.update(name, {
+					await db.domain.set(name, {
+                        ...domain.value,
 						NS_records,
 						last_push: undefined,
 						current_value_pushed: false,
-					}, { strategy: 'merge' })
+                    })
 
 					return resp(
 						jsonResponse({

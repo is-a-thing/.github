@@ -85,13 +85,19 @@
     <ul class="list bg-base-100 rounded-box border">
         <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">NS records</li>
         {#each $form.NS_records as _, i}
-            <input class="list-row input input-block input-ghost validator" bind:value={
-                () => $form.NS_records[i],
-                (t) => $form.NS_records[i] = t.toLowerCase()
-            } data-invalid={$errors.NS_records?.[i]}>
-            {#if $errors.NS_records?.[i]}
-            <span class="invalid">{$errors.NS_records[i]}</span>
-            {/if}
+            <label class="border list-row group flex flex-col w-full">
+                <input class="input w-full input-ghost validator" bind:value={
+                    () => $form.NS_records[i],
+                    (t) => $form.NS_records[i] = t.toLowerCase()
+                } data-invalid={$errors.NS_records?.[i]}>
+                <button onclick={() => form.update(f => {
+                    f.NS_records.splice(i, 1)
+                    return f
+                })} class="group-hover:opacity-100 group-hover:visible btn btn-xs invisible opacity-0 transition-all">x</button>
+                {#if $errors.NS_records?.[i]}
+                <span class="invalid">{$errors.NS_records[i]}</span>
+                {/if}
+            </label>
         {/each}
         <button onclick={() => {
             $form.NS_records.push('')

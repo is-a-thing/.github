@@ -29,7 +29,7 @@ wooter.namespace(c.chemin('login', 'oauth'), wooter => wooter.useMethods(), woot
 })
 
 wooter.GET(c.chemin('user'), ({ resp }) => {
-  resp(jsonResponse({ id: 0, login: 'example', name: "Example", created_at: CREATED_AT }))
+  resp(jsonResponse({ id: 76607214, login: 'example', name: "Example", created_at: CREATED_AT }))
 })
 
 export default { fetch: wooter.fetch }
