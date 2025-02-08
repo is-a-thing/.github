@@ -17,7 +17,9 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 	wooter.GET(
 		c.chemin('available', c.pString('name')),
 		async ({ params: { name }, resp, data: { auth } }) => {
-			if (!isAdmin(auth) && !checkDomainName(name)) return resp(jsonResponse(false))
+			if (!isAdmin(auth) && !checkDomainName(name)) {
+				return resp(jsonResponse(false))
+			}
 			const result = await db.domain.find(name)
 			if (result) return resp(jsonResponse(false))
 			resp(jsonResponse(true))
@@ -31,13 +33,13 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 			const domain_count = await domainCount(user.github_id)
 			const domain_limit = domainSlots(user.domain_slot_override)
 
-            if(!isAdmin(auth) && !checkDomainName(name)) {
-                return resp(
-                    jsonResponse({ ok: false, msg: 'invalid_domain' }, {
-                        status: 400,
-                    })
-                )
-            }
+			if (!isAdmin(auth) && !checkDomainName(name)) {
+				return resp(
+					jsonResponse({ ok: false, msg: 'invalid_domain' }, {
+						status: 400,
+					}),
+				)
+			}
 
 			if (!isAdmin(auth) && domain_count >= domain_limit) {
 				return resp(
@@ -91,6 +93,12 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 						last_push: undefined,
 						current_value_pushed: false,
 					}, { strategy: 'merge' })
+
+					return resp(
+						jsonResponse({
+							ok: true,
+						}),
+					)
 				},
 			)
 
@@ -113,11 +121,13 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 							}),
 						)
 					}
-                    if(domain.value.NS_records.length === 0) {
-                        return resp(jsonResponse({ ok: false, msg: 'no_records' }, {
-                            status: 400
-                        }))
-                    }
+					if (domain.value.NS_records.length === 0) {
+						return resp(
+							jsonResponse({ ok: false, msg: 'no_records' }, {
+								status: 400,
+							}),
+						)
+					}
 					if (
 						domain.value.last_push &&
 						new Date().getTime() -
