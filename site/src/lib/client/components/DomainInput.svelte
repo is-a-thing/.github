@@ -91,8 +91,6 @@
 			available = await response.json()
 		}
 	}, 1000)
-
-	$inspect(domain.state, available)
 </script>
 
 <span

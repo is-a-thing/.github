@@ -2,7 +2,7 @@
 	import DomainInput from '$lib/client/components/DomainInput.svelte'
 
 	let { data } = $props()
-	let { name } = data
+	let name = data.name
 </script>
 
 <div class="flex flex-col h-full items-center justify-center md:items-start md:pl-32 pb-16">

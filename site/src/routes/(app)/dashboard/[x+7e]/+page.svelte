@@ -4,33 +4,37 @@
 	import { domain } from '$lib/shared/schema'
 
 	let { data } = $props()
-	let { auth } = data
-	let domains = $derived(Object.values(auth.domains))
+
+	let domains = $derived(Object.values(data.auth.domains))
 
 	let selectedSubdomainName = $state<string>()
-	let selectedSubdomain = $derived(selectedSubdomainName ? auth.domains[selectedSubdomainName] : null)
+	let selectedSubdomain = $derived(
+		selectedSubdomainName ? data.auth.domains[selectedSubdomainName] : null
+	)
 	let drawerOpen = $derived(selectedSubdomainName != undefined)
-
 	let tainted = $state<boolean>()
-	$inspect('tainted', tainted)
 
 	function close() {
-		if(!tainted || confirm("Exit settings without saving?")) {
+		if (!tainted || confirm('Exit settings without saving?')) {
 			selectedSubdomainName = undefined
-			return;
+			return
 		}
 	}
-
-	$inspect(selectedSubdomainName, selectedSubdomain)
 </script>
 
 <div class="drawer drawer-end">
-	<input id="settings-drawer" type="checkbox" bind:checked={
-		() => drawerOpen,
-		(t) => {
-			return t == true? null : close()
+	<input
+		id="settings-drawer"
+		type="checkbox"
+		bind:checked={
+			() => drawerOpen,
+			(t) => {
+				return t == true ? null : close()
+			}
 		}
-		} defaultChecked={false} class="drawer-toggle" />
+		defaultChecked={false}
+		class="drawer-toggle"
+	/>
 	<div class="drawer-content">
 		<h1 class="text-4xl">domains</h1>
 		<hr class="my-2" />
@@ -62,10 +66,11 @@
 		{/if}
 	</div>
 	<div class="drawer-side pt-16">
-		<button onclick={close} aria-label="close sidebar" class="drawer-overlay !cursor-default"></button>
+		<button onclick={close} aria-label="close sidebar" class="drawer-overlay !cursor-default"
+		></button>
 		<div class="menu bg-base-200 text-base-content min-h-full w-lg p-4">
-			{#if selectedSubdomainName}
-				<DomainSettings domain={selectedSubdomain} bind:tainted />
+			{#if selectedSubdomainName && selectedSubdomain}
+				<DomainSettings bind:domain={() => selectedSubdomain, () => undefined} bind:tainted />
 			{/if}
 		</div>
 	</div>

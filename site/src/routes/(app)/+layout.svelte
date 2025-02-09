@@ -3,7 +3,7 @@
 	import NavbarDropdownItem from '$lib/client/components/NavbarDropdownItem.svelte'
 
 	let { children, data } = $props()
-	let { auth } = data
+	let auth = data.auth
 
 	let dropdownOpen = $state(false)
 </script>
