@@ -20,10 +20,12 @@ export async function load({ fetch, depends }) {
 			)
 		: null
 	return {
-		auth: auth? {
-			...auth,
-			domains: domainMap
-		} : null
+		auth: auth
+			? {
+					...auth,
+					domains: domainMap
+				}
+			: null
 	} as { auth?: Zod.infer<typeof full_userwithdomainmap> }
 }
 

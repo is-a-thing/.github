@@ -3,5 +3,5 @@ export function load({ params: { page } }) {
 }
 
 export const prerender = true
-export const csr = false
 export const trailingSlash = 'never'
+export const ssr = false

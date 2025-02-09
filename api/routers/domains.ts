@@ -65,9 +65,8 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 		c.chemin('settings', c.pString('name')),
 		(wooter) => wooter.useMethods(),
 		(wooter) => {
-			wooter.POST(
-				c.chemin(),
-				async (
+			wooter.GET(
+				c.chemin(), async (
 					{ data: { ensureAuth, json }, resp, params: { name } },
 				) => {
 					const { user } = ensureAuth()
@@ -97,8 +96,31 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 							ok: true,
 						}),
 					)
-				},
-			)
+				})
+				wooter.POST(c.chemin('delete'),
+					async ({ resp, params: { name }, data: { ensureAuth } }) => {
+						const { user } = ensureAuth()
+						const domain = await db.domain.find(name)
+						if (!domain) {
+							return resp(
+								jsonResponse({ ok: false, msg: 'not_found' }, {
+									status: 400,
+								}),
+							)
+						}
+						if (domain.value.owner_id !== user.github_id) {
+							return resp(
+								jsonResponse({ ok: false, msg: 'not_owner' }, {
+									status: 400,
+								}),
+							)
+						}
+						await db.domain.delete(domain.id)
+						return resp(
+							jsonResponse({ ok: true }),
+						)
+					},
+				)
 
 			wooter.POST(
 				c.chemin('push'),

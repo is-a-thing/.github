@@ -1,49 +1,53 @@
 <script lang="ts">
 	import '$lib/client/docs'
-	import { match } from '$lib/client/docs'
+	import { TOC, match } from '$lib/client/docs'
 
 	let { data } = $props()
-	let { page: _page } = data
-	const page = $derived(`/${_page}`)
-	let Component = match(page)
+
+	let page = $derived(data.page.length?`/${data.page}`:'')
+	let Component = $derived.by(() => {
+		const result = match(page)
+		return result
+	})
+	$inspect(Component, page, data)
 </script>
 
 <div class="h-full w-full flex flex-row">
-	<div class="h-full flex flex-col bg-base-200 overflow-y-scroll">
-		<div class="w-60 flex flex-col items-center pt-4">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				class="size-6"
-			>
-				<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-			</svg>
+	<div class="fixed h-full flex flex-col bg-base-200 overflow-y-scroll">
+		<div class="w-60 flex flex-col items-start pl-2 pt-4">
+			{#each Object.entries(TOC) as [name, value]}
+				{#if typeof value === 'string'}
+					<a href="/docs{value}">{name}</a>
+				{:else if typeof value === 'object'}
+					{#if value['_']}
+						<a href="/docs{value['_']}" class="text-2xl font-bold">{name}</a>
+					{:else}
+						<h1 class="text-2xl font-bold">{name}</h1>
+					{/if}
+					<ul class="ml-2">
+						{#each Object.entries(value) as [name, href]}
+						{#if name !== '_'}
+							<li>
+								<a href="/docs{href}">{name}</a>
+							</li>
+						{/if}
+					{/each}
+					</ul>
+				{/if}
+			{/each}
 		</div>
 	</div>
+	<div class="w-60"></div>
 	{#key Component}
 		<div class="font-jersey15 pt-2 pl-2 grow overflow-y-scroll">
 			<span class="prose">
 				{#if Component}
-					<Component></Component>
+					<Component />
 				{/if}
 			</span>
 		</div>
-		<div class="h-full flex flex-col bg-base-200 overflow-y-scroll">
-			<div class="w-60 flex flex-col items-center pt-4">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="size-6"
-				>
-					<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-				</svg>
-			</div>
+		<div class="h-full flex flex-col bg-base-100 overflow-y-scroll">
+			<div class="w-60 flex flex-col items-center pt-4"></div>
 		</div>
 	{/key}
 </div>

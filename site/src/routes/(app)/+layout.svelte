@@ -104,7 +104,7 @@
 					login
 				</NavbarDropdownItem>
 			{/if}
-			<!-- <NavbarDropdownItem  href="/docs">
+			<NavbarDropdownItem  href="/docs">
 				{#snippet icon()}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -121,8 +121,8 @@
 						/>
 					</svg>
 				{/snippet}
-				help
-			</NavbarDropdownItem> -->
+				docs
+			</NavbarDropdownItem>
 		</ul>
 	</details>
 </div>

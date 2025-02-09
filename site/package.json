@@ -34,6 +34,7 @@
 		"postcss": "^8.4.41",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.2.6",
+		"remark-gfm": "^4.0.0",
 		"svelte": "^5.9.0",
 		"svelte-check": "^4.0.0",
 		"sveltekit-adapter-deno": "^0.16.1",
