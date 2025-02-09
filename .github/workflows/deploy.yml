@@ -35,7 +35,7 @@ jobs:
       - name: Build step
         run: "bun run build"
         env:
-          PUBLIC_API: "https://is-a-thing-api.deno.dev"
+          PUBLIC_API: "https://api.is-a-th.ing"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
