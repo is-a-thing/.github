@@ -14,9 +14,6 @@ export const db = kvdex({
 	schema: {
 		auth: {
 			user: collection(schema.user, {
-				indices: {
-					github_id: 'primary',
-				},
 				idGenerator: ({ github_id }) => github_id,
 			}),
 			session: collection(schema.session, {
@@ -30,7 +27,6 @@ export const db = kvdex({
 		domain: collection(schema.domain, {
 			indices: {
 				owner_id: 'secondary',
-				name: 'primary',
 			},
 			idGenerator: ({ name }) => name,
 		}),
