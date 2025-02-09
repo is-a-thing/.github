@@ -13,3 +13,7 @@ is-a-th.ing is a free subdomain service allowing you to grab domains under `is-a
 ## how do i create a subdomain?
 
 You can read more about how to create a subdomain [here](/docs/register)
+
+## i have a subdomain, how do i put stuff on it?
+
+You can read more about how to use your subdomain [here](/docs/register/ns-records)

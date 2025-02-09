@@ -10,8 +10,9 @@
 
 	let {
 		domain = $bindable(),
-		tainted: _tainted = $bindable()
-	}: { domain: Zod.infer<typeof zodDomain>; tainted: boolean | undefined } = $props()
+		tainted: _tainted = $bindable(),
+		close,
+	}: { domain: Zod.infer<typeof zodDomain>; tainted: boolean | undefined, close: () => void } = $props()
 
 	function useClock() {
 		let val = $state(new SvelteDate())
@@ -49,7 +50,7 @@
 		return `${elapsedTimeMin.toFixed(0).toString().padStart(2, '0')}:${elapsedTimeSec.toFixed(0).toString().padStart(2, '0')}`
 	})
 
-	let { form, errors, isTainted, tainted, enhance, reset } = superForm(
+	let { form, errors, isTainted, tainted, enhance, reset, validateForm } = superForm(
 		defaults(zod(domainSettings)),
 		{
 			SPA: true,
@@ -95,7 +96,12 @@
 	}
 </script>
 
-<h1>{domain.name}.is-a-th.ing</h1>
+<span class="flex justify-between">
+	<h1>{domain.name}.is-a-th.ing</h1>
+	<button onclick={close} class="btn btn-xs">
+		x
+	</button>
+</span>
 
 <hr class="my-2" />
 
@@ -128,6 +134,9 @@
 				{/if}
 			</label>
 		{/each}
+		{#if $errors.NS_records?._errors}
+			<span class="bg-error text-error-content">{$errors.NS_records._errors}</span>
+		{/if}
 		<button
 			type="button"
 			onclick={(e) => {
@@ -135,6 +144,7 @@
 					f.NS_records.push('')
 					return f
 				})
+				validateForm({ update: true })
 			}}
 			class="btn btn-block btn-xs btn-outline btn-primary">+</button
 		>

@@ -14,7 +14,7 @@
 
 <div class="h-full w-full flex flex-row">
 	<div class="fixed h-full flex flex-col bg-base-200 overflow-y-scroll">
-		<div class="w-60 flex flex-col items-start pl-2 pt-4">
+		<div class="min-w-60 flex flex-col items-start pl-2 pt-4">
 			{#each Object.entries(TOC) as [name, value]}
 				{#if typeof value === 'string'}
 					<a href="/docs{value}">{name}</a>
@@ -37,17 +37,17 @@
 			{/each}
 		</div>
 	</div>
-	<div class="w-60"></div>
+	<div class="min-w-60"></div>
 	{#key Component}
-		<div class="font-jersey15 pt-2 pl-2 grow overflow-y-scroll">
+		<div class="font-jersey15 pt-2 pl-2 overflow-y-scroll !overflow-x-clip !max-w-full">
 			<span class="prose">
 				{#if Component}
 					<Component />
 				{/if}
 			</span>
 		</div>
-		<div class="h-full flex flex-col bg-base-100 overflow-y-scroll">
-			<div class="w-60 flex flex-col items-center pt-4"></div>
+		<div class="min-w-60 h-full flex flex-col bg-base-100 overflow-y-scroll">
+			<div class="flex flex-col items-center pt-4"></div>
 		</div>
 	{/key}
 </div>

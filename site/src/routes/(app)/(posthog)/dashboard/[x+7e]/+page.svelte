@@ -35,7 +35,7 @@
 		defaultChecked={false}
 		class="drawer-toggle"
 	/>
-	<div class="drawer-content">
+	<div class="drawer-content mx-1 md:mx-2">
 		<h1 class="text-4xl">domains</h1>
 		<hr class="my-2" />
 
@@ -68,9 +68,9 @@
 	<div class="drawer-side pt-16">
 		<button onclick={close} aria-label="close sidebar" class="drawer-overlay !cursor-default"
 		></button>
-		<div class="menu bg-base-200 text-base-content min-h-full w-lg p-4">
+		<div class="menu bg-base-200 text-base-content min-h-full w-full md:w-[600px] p-4">
 			{#if selectedSubdomainName && selectedSubdomain}
-				<DomainSettings bind:domain={() => selectedSubdomain, () => undefined} bind:tainted />
+				<DomainSettings {close} bind:domain={() => selectedSubdomain, () => undefined} bind:tainted />
 			{/if}
 		</div>
 	</div>
