@@ -1,7 +1,7 @@
 import { fetchAPI } from '$lib/client/api/index'
 import { domain, full_user } from '$lib/shared/schema'
-import posthog from 'posthog-js'
 
+import posthog from 'posthog-js'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,10 +21,11 @@ export async function load({ fetch, depends }) {
 			)
 		: null
 	posthog.reset()
-	if(auth) posthog.identify(auth.user.github_id, {
-		name: auth.user.name,
-		github_id: auth.user.github_id
-	})
+	if (auth)
+		posthog.identify(auth.user.github_id, {
+			name: auth.user.name,
+			github_id: auth.user.github_id
+		})
 	return {
 		auth: auth
 			? {

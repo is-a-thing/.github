@@ -10,7 +10,7 @@ const components = Object.entries(glob).map(([name, value]) => {
 	if (newName.endsWith('index')) newName = newName.slice(0, -'/index'.length)
 	console.log(newName)
 	return [newName, value] as const
-})
+}) as [string, Component][]
 
 components.forEach(([path, component]) => router.add('get', path, component))
 
@@ -24,19 +24,16 @@ const TOC: {
 
 Object.keys(glob).forEach((file) => {
 	const pathParts = file.substring('./content/'.length).slice(0, -'.md'.length).split('/')
-	let section: string
+	const section = pathParts[0].replaceAll('-', ' ')
 	let title: string
 
 	if (pathParts.length === 1) {
-		section = pathParts[0].replaceAll('-', ' ')
 		if (pathParts[0] === 'index') return (TOC[section] = `/`)
 		return (TOC[section] = `/${pathParts[0]}`)
 	} else if (pathParts[1] === 'index') {
-		section = pathParts[0].replaceAll('-', ' ')
 		title = '_'
 		pathParts.pop()
 	} else {
-		section = pathParts[0].replaceAll('-', ' ')
 		title = (pathParts[1] || 'index').replaceAll('-', ' ')
 	}
 	const routePath = `/${pathParts.join('/')}`

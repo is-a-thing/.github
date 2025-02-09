@@ -11,7 +11,9 @@ export function normalizeDomainNameWhileTyping(v: string | null) {
 		?.substring(0, 64)
 }
 
-export function normalizeDomainName(v: string | null) {
+export function normalizeDomainName(v: string): string
+export function normalizeDomainName(v: null): undefined
+export function normalizeDomainName(v: string | null): string | undefined {
 	return normalizeFirst(v)
 		?.replace(/^-+|-+$/g, '')
 		?.replace(/--+/g, '-')

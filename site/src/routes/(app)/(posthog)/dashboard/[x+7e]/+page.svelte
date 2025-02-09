@@ -70,7 +70,11 @@
 		></button>
 		<div class="menu bg-base-200 text-base-content min-h-full w-full md:w-[600px] p-4">
 			{#if selectedSubdomainName && selectedSubdomain}
-				<DomainSettings {close} bind:domain={() => selectedSubdomain, () => undefined} bind:tainted />
+				<DomainSettings
+					{close}
+					bind:domain={() => selectedSubdomain, () => undefined}
+					bind:tainted
+				/>
 			{/if}
 		</div>
 	</div>

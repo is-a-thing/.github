@@ -25,7 +25,6 @@ const app = initWooter()
 
 export default { fetch: app.fetch }
 
-
-globalThis.addEventListener("unload", async () => {
+globalThis.addEventListener('unload', async () => {
 	await posthog.shutdown()
-});
+})

@@ -66,15 +66,16 @@ export async function setRRSet(
 	return Err(res)
 }
 
-
-export async function deleteRRSet(subdomain: string): Promise<Result<null, Response>> {
+export async function deleteRRSet(
+	subdomain: string,
+): Promise<Result<null, Response>> {
 	const res = await fetchDesec(
 		path_RRSetSubdomain(subdomain),
 		{
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			method: 'DELETE'
+			method: 'DELETE',
 		},
 	)
 	if (res.ok) return Ok(null)

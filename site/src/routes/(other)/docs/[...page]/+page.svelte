@@ -4,7 +4,7 @@
 
 	let { data } = $props()
 
-	let page = $derived(data.page.length?`/${data.page}`:'')
+	let page = $derived(data.page.length ? `/${data.page}` : '')
 	let Component = $derived.by(() => {
 		const result = match(page)
 		return result
@@ -26,12 +26,12 @@
 					{/if}
 					<ul class="ml-2">
 						{#each Object.entries(value) as [name, href]}
-						{#if name !== '_'}
-							<li>
-								<a href="/docs{href}">{name}</a>
-							</li>
-						{/if}
-					{/each}
+							{#if name !== '_'}
+								<li>
+									<a href="/docs{href}">{name}</a>
+								</li>
+							{/if}
+						{/each}
 					</ul>
 				{/if}
 			{/each}

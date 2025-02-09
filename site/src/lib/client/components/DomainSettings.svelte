@@ -3,7 +3,7 @@
 	import { domainSettings, domain as zodDomain } from '$lib/shared/schema'
 
 	import { SvelteDate } from 'svelte/reactivity'
-	import SuperDebug, { defaults, superForm } from 'sveltekit-superforms'
+	import { defaults, superForm } from 'sveltekit-superforms'
 	import { zod } from 'sveltekit-superforms/adapters'
 
 	import { fetchAPI } from '../api'
@@ -11,8 +11,12 @@
 	let {
 		domain = $bindable(),
 		tainted: _tainted = $bindable(),
-		close,
-	}: { domain: Zod.infer<typeof zodDomain>; tainted: boolean | undefined, close: () => void } = $props()
+		close
+	}: {
+		domain: Zod.infer<typeof zodDomain>
+		tainted: boolean | undefined
+		close: () => void
+	} = $props()
 
 	function useClock() {
 		let val = $state(new SvelteDate())
@@ -38,7 +42,8 @@
 	const FIFTEEN_MINUTES = 15 * 60 * 1000
 	let timeICanUpdate = $derived(
 		timeSinceLastPush && timeSinceLastPush < FIFTEEN_MINUTES
-			? domain.last_push?.getTime() + FIFTEEN_MINUTES
+			? // @ts-expect-error: timeSinceLastPush depends on domain.last_push, so if the former is undefined, the latter will be as well.
+				domain.last_push.getTime() + FIFTEEN_MINUTES
 			: undefined
 	)
 	let timeTillUpdate = $derived(timeICanUpdate ? timeICanUpdate - clock.getTime() : undefined)
@@ -98,9 +103,7 @@
 
 <span class="flex justify-between">
 	<h1>{domain.name}.is-a-th.ing</h1>
-	<button onclick={close} class="btn btn-xs">
-		x
-	</button>
+	<button onclick={close} class="btn btn-xs"> x </button>
 </span>
 
 <hr class="my-2" />
@@ -171,16 +174,19 @@
 </button>
 <hr class="my-2" />
 
-
-<button onclick={async () => {
-	if(confirm("Delete subdomain?")) {
-		await fetchAPI(`/domains/settings/${domain.name}/delete`, {
-			init: {
-				method: "POST"
-			}
-		})
-		await invalidate('app:auth')
-	}
-}} class="btn btn-error">
+<button
+	onclick={async () => {
+		if (confirm('Delete subdomain?')) {
+			await fetchAPI(`/domains/settings/${domain.name}/delete`, {
+				init: {
+					method: 'POST'
+				}
+			})
+			await invalidate('app:auth')
+			close()
+		}
+	}}
+	class="btn btn-error"
+>
 	Delete
 </button>

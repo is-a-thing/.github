@@ -14,7 +14,6 @@ import {
 } from '$auth/index.ts'
 import posthog from '$util/posthog.ts'
 
-
 // @deno-types="@types/luxon"
 import { DateTime } from 'luxon'
 import { db } from '$db/index.ts'
