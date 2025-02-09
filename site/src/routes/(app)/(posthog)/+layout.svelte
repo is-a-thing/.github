@@ -89,7 +89,7 @@
 					{auth.user.name.toLocaleLowerCase()}
 				</NavbarDropdownItem>
 			{:else}
-				<NavbarDropdownItem href="{publicApi}/auth">
+				<NavbarDropdownItem href="/tos-consent">
 					{#snippet icon()}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
