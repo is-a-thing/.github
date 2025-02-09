@@ -9,7 +9,7 @@ const full_userwithdomainmap = full_user.extend({
 	domains: z.record(z.string(), domain)
 })
 
-export async function load({ fetch, depends }) {
+export async function load({ fetch, depends, data }) {
 	const authR = await fetchAPI(`/me/full`, { fetch })
 	depends('app:auth')
 	const auth: Zod.infer<typeof full_user> | null = authR.ok ? await authR.json() : null
@@ -26,6 +26,7 @@ export async function load({ fetch, depends }) {
 		github_id: auth.user.github_id
 	})
 	return {
+		commitID: data.commitID,
 		auth: auth
 			? {
 					...auth,

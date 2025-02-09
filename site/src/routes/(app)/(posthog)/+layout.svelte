@@ -15,7 +15,7 @@
 
 <div class="fixed top-0 backdrop-blur navbar bg-base-200/80 text-base-content z-1">
 	<a href="/" class="btn btn-ghost text-4xl font-jersey15">is-a-th.ing</a>
-	<div class="badge badge-warning uppercase">wip</div>
+	<div title="{data.commitID}" class="badge badge-warning uppercase">wip</div>
 	<div class="grow"></div>
 	<details class="dropdown dropdown-end" bind:open={dropdownOpen}>
 		<summary class="btn">
