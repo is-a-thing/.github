@@ -32,5 +32,5 @@ export const full_user = z.object({
 })
 
 export const domainSettings = z.object({
-	NS_records: z.string().toLowerCase().regex(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})\.$/, { message: "must be correct and end with (.)" }).array(),
+	NS_records: z.string().min(2).toLowerCase().regex(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})\.$/, { message: "must be correct and end with (.)" }).array(),
 })

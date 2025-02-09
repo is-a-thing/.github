@@ -87,13 +87,10 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 							}),
 						)
 					}
-
-					await db.domain.set(name, {
-                        ...domain.value,
+					await db.domain.update(name, {
 						NS_records,
-						last_push: undefined,
 						current_value_pushed: false,
-                    })
+					}, { mergeOptions: { arrays: 'replace' } })
 
 					return resp(
 						jsonResponse({
