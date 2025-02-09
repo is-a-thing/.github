@@ -1,11 +1,16 @@
 <script lang="ts">
+	import { afterNavigate, beforeNavigate } from '$app/navigation'
 	import { publicApi } from '$lib/client/api/index'
 	import NavbarDropdownItem from '$lib/client/components/NavbarDropdownItem.svelte'
+	import posthog from 'posthog-js'
 
 	let { children, data } = $props()
 	let auth = data.auth
 
 	let dropdownOpen = $state(false)
+
+	beforeNavigate(() => posthog.capture('$pageleave'));
+    afterNavigate(() => posthog.capture('$pageview'));
 </script>
 
 <div class="fixed top-0 backdrop-blur navbar bg-base-200/80 text-base-content z-1">

@@ -12,6 +12,8 @@ import {
 	generateSessionToken,
 	invalidateSession,
 } from '$auth/index.ts'
+import posthog from '$util/posthog.ts'
+
 
 // @deno-types="@types/luxon"
 import { DateTime } from 'luxon'
@@ -29,9 +31,13 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 	wooter.POST(
 		c.chemin('logout'),
 		async ({ data: { cookies, ensureAuth }, resp }) => {
-			const { session } = ensureAuth()
+			const { session, user } = ensureAuth()
 			deleteSessionCookie(cookies)
 			await invalidateSession(session.id)
+			posthog.capture({
+				distinctId: user.github_id,
+				event: 'user logged out',
+			})
 			resp(new Response('ok'))
 		},
 	)
@@ -125,6 +131,15 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 						github_id: githubUser.id.toString(),
 						domain_slot_override: undefined,
 						name: githubUser.name,
+					})
+					posthog.capture({
+						distinctId: githubUser.id.toString(),
+						event: 'user signed up',
+					})
+				} else {
+					posthog.capture({
+						distinctId: githubUser.id.toString(),
+						event: 'user logged in',
 					})
 				}
 

@@ -5,9 +5,10 @@ import { jsonResponse } from '@bronti/wooter/util'
 import { db } from '$db/index.ts'
 import { domainCount, domainSlots } from '$db/fn.ts'
 import { domainSettings } from '$shared/schema.ts'
-import { setRRSet } from '$util/desec.ts'
+import { deleteRRSet, setRRSet } from '$util/desec.ts'
 import { AuthPair } from '$auth/index.ts'
 import { Option } from '@oxi/option'
+import posthog from '$util/posthog.ts'
 
 function isAdmin(pair: Option<AuthPair>) {
 	return pair.isSome() && pair.unwrap().user.github_id === '76607214'
@@ -32,7 +33,11 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 			const { user } = ensureAuth()
 			const domain_count = await domainCount(user.github_id)
 			const domain_limit = domainSlots(user.domain_slot_override)
-
+			posthog.capture({
+				distinctId: user.github_id,
+				event: 'user requests domain',
+				properties: { domain: name }
+			})
 			if (!isAdmin(auth) && !checkDomainName(name)) {
 				return resp(
 					jsonResponse({ ok: false, msg: 'invalid_domain' }, {
@@ -56,7 +61,11 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 				last_push: undefined,
 				current_value_pushed: false,
 			})
-
+			posthog.capture({
+				distinctId: user.github_id,
+				event: `user gets domain`,
+				properties: { domain: name }
+			})
 			resp(jsonResponse({ ok: true }))
 		},
 	)
@@ -65,7 +74,7 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 		c.chemin('settings', c.pString('name')),
 		(wooter) => wooter.useMethods(),
 		(wooter) => {
-			wooter.GET(
+			wooter.POST(
 				c.chemin(), async (
 					{ data: { ensureAuth, json }, resp, params: { name } },
 				) => {
@@ -90,7 +99,11 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 						NS_records,
 						current_value_pushed: false,
 					}, { mergeOptions: { arrays: 'replace' } })
-
+					posthog.capture({
+						distinctId: user.github_id,
+						event: 'user updates domain records',
+						properties: { domain: name }
+					})
 					return resp(
 						jsonResponse({
 							ok: true,
@@ -116,6 +129,13 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 							)
 						}
 						await db.domain.delete(domain.id)
+						posthog.capture({
+							distinctId: user.github_id,
+							event: 'user deletes domain',
+							properties: { domain: name }
+						});
+						(await deleteRRSet(name)).unwrap()
+
 						return resp(
 							jsonResponse({ ok: true }),
 						)
@@ -160,6 +180,11 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 							}),
 						)
 					}
+					posthog.capture({
+						distinctId: user.github_id,
+						event: 'user pushes records',
+						properties: { domain: name }
+					})
 					const res = await setRRSet(name, domain.value.NS_records)
 					if (res.isOk()) {
 						db.domain.update(name, {

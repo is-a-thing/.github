@@ -7,16 +7,23 @@
     "jsr:@oxi/core@~0.2.1": "0.2.1",
     "jsr:@oxi/option@0.2": "0.2.0",
     "jsr:@oxi/result@~0.3.1": "0.3.1",
+    "jsr:@std/assert@1": "1.0.11",
     "jsr:@std/bytes@^1.0.4": "1.0.5",
+    "jsr:@std/cli@^1.0.6": "1.0.12",
     "jsr:@std/collections@^1.0.9": "1.0.10",
     "jsr:@std/dotenv@~0.225.3": "0.225.3",
     "jsr:@std/encoding@*": "1.0.7",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0",
+    "npm:@deno/kv@0.9": "0.9.0",
     "npm:@oslojs/crypto@^1.0.1": "1.0.1",
     "npm:@oslojs/encoding@^1.1.0": "1.1.0",
+    "npm:@types/luxon@^3.4.2": "3.4.2",
     "npm:arctic@^3.2.2": "3.2.3",
     "npm:cookie@^1.0.2": "1.0.2",
     "npm:luxon@^3.5.0": "3.5.0",
+    "npm:posthog-node@^4.5.0": "4.5.0",
+    "npm:zod@^3.23.8": "3.24.1",
     "npm:zod@^3.24.1": "3.24.1"
   },
   "jsr": {
@@ -33,8 +40,10 @@
       "integrity": "82f92cc000a483633782ca84b74ae4f1fbd854414dac7dbac80887c444b7f971",
       "dependencies": [
         "jsr:@std/bytes",
+        "jsr:@std/cli",
         "jsr:@std/collections",
-        "jsr:@std/ulid"
+        "jsr:@std/ulid",
+        "npm:zod@^3.23.8"
       ]
     },
     "@oxi/core@0.2.1": {
@@ -52,8 +61,17 @@
         "jsr:@oxi/core"
       ]
     },
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
     "@std/bytes@1.0.5": {
       "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
+    },
+    "@std/cli@1.0.12": {
+      "integrity": "e5cfb7814d189da174ecd7a34fbbd63f3513e24a1b307feb2fcd5da47a070d90"
     },
     "@std/collections@1.0.10": {
       "integrity": "903af106a3d92970d74e20f7ebff77d9658af9bef4403f1dc42a7801c0575899"
@@ -64,11 +82,35 @@
     "@std/encoding@1.0.7": {
       "integrity": "f631247c1698fef289f2de9e2a33d571e46133b38d042905e3eac3715030a82d"
     },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
     "@std/ulid@1.0.0": {
       "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
     }
   },
   "npm": {
+    "@deno/kv-darwin-arm64@0.9.0": {
+      "integrity": "sha512-9o2typxowaiIW7TJFzbuDEIpmZA9/At+kO7ljgb+jEm16gBHtCkDt69TU4h0ZIMmHo7E9Mo+W84BeGdXkxUGcg=="
+    },
+    "@deno/kv-darwin-x64@0.9.0": {
+      "integrity": "sha512-LxCNbOO3INW5VkhLviRLvQoiJtiNlgSvPZM5JwVQhu4dWNpuMI7Hl2cU1PB3mOwuYHdORnkj5BqChQRdRh4F0g=="
+    },
+    "@deno/kv-linux-x64-gnu@0.9.0": {
+      "integrity": "sha512-DqhJdWD/mzb/WHHaL9QqsPZxuk/w1haWDnEOZ3rda704q/lJFkIBMBWBB8kDDbVphQ2WNVU0uKyAdxNYpUK8YQ=="
+    },
+    "@deno/kv-win32-x64-msvc@0.9.0": {
+      "integrity": "sha512-yDLd0OY/7nOoUG8WypEOLIME0ZADqgG7ciKiL7hOy06ra1gR9AaZeacsZ2Df2SxSnuuOVJpxUhml+JRVx+LGpg=="
+    },
+    "@deno/kv@0.9.0": {
+      "integrity": "sha512-NdnyNKpxH+Hjb/55v+qpLG39Tz/otlyl0FFaNCRcOtQfCmjRsJevoZugBR+d+O+/5PYmmj/fgfcpYgnukM1r5A==",
+      "dependencies": [
+        "@deno/kv-darwin-arm64",
+        "@deno/kv-darwin-x64",
+        "@deno/kv-linux-x64-gnu",
+        "@deno/kv-win32-x64-msvc"
+      ]
+    },
     "@oslojs/asn1@1.0.0": {
       "integrity": "sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==",
       "dependencies": [
@@ -97,6 +139,9 @@
         "@oslojs/encoding@0.4.1"
       ]
     },
+    "@types/luxon@3.4.2": {
+      "integrity": "sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA=="
+    },
     "arctic@3.2.3": {
       "integrity": "sha512-DZkXM+ASHEaENRsq7pA8DL9smkerLDA9R8aziH0IQhiU+uuxDCzeF+YJ6Wc3gss8yhSrPdDNzMTbiVviVltJDA==",
       "dependencies": [
@@ -105,11 +150,60 @@
         "@oslojs/jwt"
       ]
     },
+    "asynckit@0.4.0": {
+      "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="
+    },
+    "axios@1.7.9": {
+      "integrity": "sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==",
+      "dependencies": [
+        "follow-redirects",
+        "form-data",
+        "proxy-from-env"
+      ]
+    },
+    "combined-stream@1.0.8": {
+      "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+      "dependencies": [
+        "delayed-stream"
+      ]
+    },
     "cookie@1.0.2": {
       "integrity": "sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA=="
     },
+    "delayed-stream@1.0.0": {
+      "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ=="
+    },
+    "follow-redirects@1.15.9": {
+      "integrity": "sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ=="
+    },
+    "form-data@4.0.1": {
+      "integrity": "sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==",
+      "dependencies": [
+        "asynckit",
+        "combined-stream",
+        "mime-types"
+      ]
+    },
     "luxon@3.5.0": {
       "integrity": "sha512-rh+Zjr6DNfUYR3bPwJEnuwDdqMbxZW7LOQfUN4B54+Cl+0o5zaU9RJ6bcidfDtC1cWCZXQ+nvX8bf6bAji37QQ=="
+    },
+    "mime-db@1.52.0": {
+      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg=="
+    },
+    "mime-types@2.1.35": {
+      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+      "dependencies": [
+        "mime-db"
+      ]
+    },
+    "posthog-node@4.5.0": {
+      "integrity": "sha512-h1WTHYvgOZ7kBGH0XfKVOVsSyFgCEbgzC2RIw7fetsW6RrSvxPYcaycKUDfqa5EGbvU0SYLbqAeeqNZjPDaznA==",
+      "dependencies": [
+        "axios"
+      ]
+    },
+    "proxy-from-env@1.1.0": {
+      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="
     },
     "zod@3.24.1": {
       "integrity": "sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A=="
@@ -130,6 +224,7 @@
       "npm:arctic@^3.2.2",
       "npm:cookie@^1.0.2",
       "npm:luxon@^3.5.0",
+      "npm:posthog-node@^4.5.0",
       "npm:zod@^3.24.1"
     ]
   }

@@ -6,6 +6,7 @@ import { mePreRouter, meRouter } from './routers/me.ts'
 import { domainsRouter } from './routers/domains.ts'
 import { redirectResponse } from '@bronti/wooter/util'
 import { MAINPAGE } from '$util/env.ts'
+import posthog from '$util/posthog.ts'
 
 const app = initWooter()
 	.namespace(c.chemin('auth'), (wooter) => wooter.useMethods(), authNamespace)
@@ -23,3 +24,8 @@ const app = initWooter()
 	})
 
 export default { fetch: app.fetch }
+
+
+globalThis.addEventListener("unload", async () => {
+	await posthog.shutdown()
+});
