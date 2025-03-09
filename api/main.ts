@@ -9,17 +9,13 @@ import { MAINPAGE } from '$util/env.ts'
 import posthog from '$util/posthog.ts'
 
 const app = initWooter()
-	.namespace(c.chemin('auth'), (wooter) => wooter.useMethods(), authNamespace)
-	// @ts-expect-error: Need to fix this in wooter, but it's not a big deal at the moment
-	.namespace(c.chemin('me'), (wooter) => {
-		return mePreRouter(wooter.useMethods())
-	}, meRouter)
+	.namespace(c.chemin('auth'), authNamespace)
+	.namespace(c.chemin('me'), (wooter) => mePreRouter(wooter), meRouter)
 	.namespace(
 		c.chemin('domains'),
-		(wooter) => wooter.useMethods(),
 		domainsRouter,
 	)
-	.GET(c.chemin(), ({ resp }) => {
+	.route("GET", c.chemin(), ({ resp }) => {
 		resp(redirectResponse(MAINPAGE))
 	})
 

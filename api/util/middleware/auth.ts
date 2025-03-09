@@ -12,7 +12,7 @@ import { errorResponse } from '@bronti/wooter/util'
 export const useAuth: StandaloneMiddlewareHandler<
 	{ auth: Option<AuthPair>; ensureAuth: () => AuthPair },
 	{ cookies: Cookies }
-> = async ({ data: { cookies }, up, resp, request }) => {
+> = async ({ data: { cookies }, up, resp }) => {
 	const token = cookies.get('session') ?? null
 	let auth: Option<AuthPair> = None
 	if (token) {
