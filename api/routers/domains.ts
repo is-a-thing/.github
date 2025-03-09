@@ -15,7 +15,7 @@ function isAdmin(pair: Option<AuthPair>) {
 }
 
 export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
-	wooter.GET(
+	wooter.route.GET(
 		c.chemin('available', c.pString('name')),
 		async ({ params: { name }, resp, data: { auth } }) => {
 			if (!isAdmin(auth) && !checkDomainName(name)) {
@@ -27,7 +27,7 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 		},
 	)
 
-	wooter.POST(
+	wooter.route.POST(
 		c.chemin('get', c.pString('name')),
 		async ({ data: { ensureAuth, auth }, resp, params: { name } }) => {
 			const { user } = ensureAuth()
@@ -72,9 +72,8 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 
 	wooter.namespace(
 		c.chemin('settings', c.pString('name')),
-		(wooter) => wooter.useMethods(),
 		(wooter) => {
-			wooter.POST(
+			wooter.route.POST(
 				c.chemin(),
 				async (
 					{ data: { ensureAuth, json }, resp, params: { name } },
@@ -112,7 +111,7 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 					)
 				},
 			)
-			wooter.POST(
+			wooter.route.POST(
 				c.chemin('delete'),
 				async ({ resp, params: { name }, data: { ensureAuth } }) => {
 					const { user } = ensureAuth()
@@ -145,7 +144,7 @@ export function domainsRouter(wooter: ReturnType<typeof initWooter>) {
 				},
 			)
 
-			wooter.POST(
+			wooter.route.POST(
 				c.chemin('push'),
 				async ({ resp, params: { name }, data: { ensureAuth } }) => {
 					const { user } = ensureAuth()

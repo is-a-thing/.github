@@ -27,7 +27,7 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 		created_at: string
 	}
 
-	wooter.POST(
+	wooter.route.POST(
 		c.chemin('logout'),
 		async ({ data: { cookies, ensureAuth }, resp }) => {
 			const { session, user } = ensureAuth()
@@ -41,7 +41,7 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 		},
 	)
 
-	wooter.GET(c.chemin(), ({ data: { cookies }, resp, url }) => {
+	wooter.route.GET(c.chemin(), ({ data: { cookies }, resp, url }) => {
 		const next = url.searchParams.get('next')
 		if (next && !isValidPath(next)) {
 			resp(errorResponse(400, 'Invalid redirect'))
@@ -70,7 +70,7 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 		resp(redirectResponse(redirurl.toString(), { status: 302 }))
 	})
 
-	wooter.GET(
+	wooter.route.GET(
 		c.chemin('callback'),
 		async ({ data: { cookies }, resp, url }) => {
 			const code = url.searchParams.get('code')

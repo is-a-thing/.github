@@ -10,7 +10,7 @@ function addCors(response: Response) {
 }
 
 export function initWooter() {
-	return new Wooter().useMethods().use(async ({ up }) => {
+	return new Wooter().use(async ({ up }) => {
 		addCors(await up())
 	}).use(useCookies).use(useAuth).use(useZod).notFound(({ resp, url }) => {
 		const response = new Response(`Not Found ${url.pathname}`, {
