@@ -4,11 +4,12 @@ import { c } from '@bronti/wooter'
 import { generateState, OAuth2Tokens } from 'arctic'
 import github from '$auth/github.ts'
 import { DEV, GITHUB_API, MAINPAGE } from '$util/env.ts'
-import { errorResponse, redirectResponse } from '@bronti/wooter/util'
+import {
+	errorResponse,
+	redirectResponse,
+} from '@bronti/wooter/util'
 import {
 	createSession,
-	createSessionCookie,
-	deleteSessionCookie,
 	generateSessionToken,
 	invalidateSession,
 } from '$auth/index.ts'
@@ -27,11 +28,24 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 		created_at: string
 	}
 
+	wooter.route.GET(
+		c.chemin('code', c.pString('code')),
+		async ({ resp, params: { code } }) => {
+			const session = await db.auth.code.find(code)
+			if (session) {
+				await db.auth.code.delete(code)
+				resp(Response.json({ ok: true, data: session.value }))
+			} else {
+				resp(Response.json({ ok: false, msg: 'not_found' }))
+			}
+		},
+	)
+
 	wooter.route.POST(
 		c.chemin('logout'),
-		async ({ data: { cookies, ensureAuth }, resp }) => {
+		async ({ data: { ensureAuth, deleteSession }, resp }) => {
 			const { session, user } = ensureAuth()
-			deleteSessionCookie(cookies)
+			deleteSession()
 			await invalidateSession(session.id)
 			posthog.capture({
 				distinctId: user.github_id,
@@ -77,6 +91,8 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 			const state = url.searchParams.get('state')
 			const storedState = cookies.get('oauth_state') ?? null
 			const next = cookies.get('next_path') ?? '/'
+			const redirect = new URL(`${MAINPAGE}${next}`)
+
 			cookies.delete('oauth_state', {
 				path: '/',
 				secure: true,
@@ -92,14 +108,20 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 				sameSite: 'lax',
 			})
 			if (!code || !state || !storedState || state !== storedState) {
-				return resp(errorResponse(400, 'Invalid State'))
+				redirect.searchParams.set('msg', 'broken_state')
+				return resp(
+					redirectResponse(redirect),
+				)
 			}
 			let tokens: OAuth2Tokens
 
 			try {
 				tokens = await github.validateAuthorizationCode(code)
 			} catch {
-				return resp(errorResponse(400, 'Unable to validate'))
+				redirect.searchParams.set('msg', 'code_validation')
+				return resp(
+					redirectResponse(redirect),
+				)
 			}
 
 			try {
@@ -115,11 +137,13 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 					'days',
 				).days
 				if (daysSinceJoin < 90) {
+					redirect.searchParams.set('msg', 'account_too_new')
 					return resp(
-						errorResponse(
-							400,
-							'Github account must be at least 90 days old',
-						),
+						// errorResponse(
+						// 	400,
+						// 	'Github account must be at least 90 days old',
+						// ),
+						redirectResponse(redirect),
 					)
 				}
 
@@ -150,10 +174,10 @@ export function authNamespace(wooter: ReturnType<typeof initWooter>) {
 				if (sessionOption.isNone()) {
 					resp(errorResponse(500, 'Error creating session'))
 				}
-
-				createSessionCookie(token, cookies)
-
-				resp(redirectResponse(`${MAINPAGE}${next}`))
+				const code = generateState()
+				db.auth.code.set(code, token)
+				redirect.searchParams.set('code', code)
+				resp(redirectResponse(redirect))
 			} catch (e) {
 				console.error(e)
 				resp(errorResponse(500, 'Unknown Error'))

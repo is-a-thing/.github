@@ -15,11 +15,11 @@ const app = initWooter()
 		c.chemin('domains'),
 		domainsRouter,
 	)
-	.route("GET", c.chemin(), ({ resp }) => {
+	.route(c.chemin(), "GET", ({ resp }) => {
 		resp(redirectResponse(MAINPAGE))
 	})
 
-export default { fetch: app.fetch }
+export default app;
 
 globalThis.addEventListener('unload', async () => {
 	await posthog.shutdown()

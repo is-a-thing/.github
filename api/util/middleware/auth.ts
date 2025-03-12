@@ -1,34 +1,32 @@
 import { StandaloneMiddlewareHandler } from '@bronti/wooter/types'
-import {
-	createSessionCookie,
-	deleteSessionCookie,
-	validateSessionToken,
-} from '$auth/index.ts'
+import { validateSessionToken } from '$auth/index.ts'
 import { AuthPair } from '$auth/index.ts'
-import { Cookies } from '$util/middleware/cookies.ts'
 import { None, Option } from '@oxi/option'
 import { errorResponse } from '@bronti/wooter/util'
 
 export const useAuth: StandaloneMiddlewareHandler<
-	{ auth: Option<AuthPair>; ensureAuth: () => AuthPair },
-	{ cookies: Cookies }
-> = async ({ data: { cookies }, up, resp }) => {
-	const token = cookies.get('session') ?? null
+	{
+		auth: Option<AuthPair>
+		ensureAuth: () => AuthPair
+		deleteSession: () => void
+	}
+> = async ({ up, resp, request }) => {
+	const token =
+		request.headers.get('Authorization')?.split(' ') as [string, string] ??
+			null
 	let auth: Option<AuthPair> = None
-	if (token) {
-		const pairOption = await validateSessionToken(token)
+	let newToken: string = ''
+	if (token && token[0].toLowerCase() === 'bearer') {
+		const pairOption = await validateSessionToken(token[1])
 
 		if (pairOption.isSome()) {
-			// Token exists and is valid; update cookie and set auth
-			createSessionCookie(token, cookies)
+			// Token exists and is valid; update token and set auth
+			newToken = token[1]
 			auth = pairOption
-		} else {
-			// Token exists but is not valid; remove it
-			deleteSessionCookie(cookies)
 		}
 	}
 
-	await up({
+	const response = await up({
 		auth,
 		ensureAuth: () => {
 			if (auth.isNone()) {
@@ -36,5 +34,10 @@ export const useAuth: StandaloneMiddlewareHandler<
 			}
 			return auth.unwrap()
 		},
+		deleteSession: () => {
+			newToken = ''
+		},
 	})
+
+	response.headers.set('Authorization', newToken)
 }

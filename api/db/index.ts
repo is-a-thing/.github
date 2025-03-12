@@ -1,6 +1,6 @@
 import { DEV } from '$util/env.ts'
 
-import { collection, kvdex } from '@olli/kvdex'
+import { collection, kvdex, model } from '@olli/kvdex'
 import * as schema from '$shared/schema.ts'
 
 export { schema }
@@ -23,6 +23,10 @@ export const db = kvdex({
 				},
 				idGenerator: ({ id }) => id,
 			}),
+			/**
+			 * Used to store the authorization codes that map to session IDs.
+			 */
+			code: collection(model<string>()),
 		},
 		domain: collection(schema.domain, {
 			indices: {

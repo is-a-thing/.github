@@ -1,12 +1,11 @@
 import { Wooter } from '@bronti/wooter'
 import { useZod } from '$util/middleware/zod.ts'
-import { useCookies } from '$util/middleware/cookies.ts'
 import { useAuth } from '$util/middleware/auth.ts'
 import { MAINPAGE } from '$util/env.ts'
+import { useCookies } from '$util/middleware/cookies.ts'
 
 function addCors(response: Response) {
 	response.headers.set('Access-Control-Allow-Origin', MAINPAGE)
-	response.headers.set('Access-Control-Allow-Credentials', 'true')
 }
 
 export function initWooter() {

@@ -7,7 +7,6 @@ import { None, type Option, Some } from '@oxi/option'
 import type { z } from 'zod'
 
 import { db, schema } from '$db/index.ts'
-import { Cookies } from '$util/middleware/cookies.ts'
 
 export type Session = z.infer<typeof schema.session>
 export type User = z.infer<typeof schema.user>
@@ -60,8 +59,8 @@ const dbHelpers = {
 		const user = session?.user_id
 			? (await db.auth.user.find(session.user_id))?.value
 			: undefined
-		// @ts-expect-error: If session is undefined, user will automatically be undefined
-		return [session, user]
+
+		return session && user ? [session, user] : [undefined, undefined]
 	},
 }
 
@@ -108,24 +107,4 @@ export async function validateSessionToken(
 
 export async function invalidateSession(session_id: string): Promise<void> {
 	await dbHelpers.deleteSession(session_id)
-}
-
-export function createSessionCookie(token: string, cookies: Cookies) {
-	cookies.set('session', token, {
-		httpOnly: true,
-		sameSite: 'none',
-		maxAge: expire_time,
-		path: '/',
-		secure: true,
-	})
-}
-
-export function deleteSessionCookie(cookies: Cookies) {
-	cookies.set('session', '', {
-		httpOnly: true,
-		sameSite: 'none',
-		maxAge: 0,
-		path: '/',
-		secure: true,
-	})
 }
